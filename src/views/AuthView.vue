@@ -23,7 +23,6 @@ const handleLogin = async () => {
 }
 
 const callback = async (response) => {
-  // todo complete this flow
   const { data, error } = await supabase.auth.signInWithIdToken({
     provider: 'google',
     token: response.credential,
