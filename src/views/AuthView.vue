@@ -21,6 +21,15 @@ const handleLogin = async () => {
     loading.value = false
   }
 }
+
+const callback = async (response) => {
+  console.log('Handle the response', response)
+  // todo complete this flow
+  const { data, error } = await supabase.auth.signInWithIdToken({
+    provider: 'google',
+    token: response.credential,
+  })
+}
 </script>
 
 <template>
@@ -41,4 +50,5 @@ const handleLogin = async () => {
       </div>
     </div>
   </form>
+  <GoogleLogin :callback="callback" />
 </template>
