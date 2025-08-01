@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { supabase } from '@/lib/supabaseClient'
+import Button from 'primevue/button'
 
 async function handleSignOut() {
   const { error } = await supabase.auth.signOut()
@@ -10,7 +11,7 @@ async function handleSignOut() {
 </script>
 
 <template>
-  <button @click="handleSignOut">Log Out</button>
+  <Button label="Log Out" @click="handleSignOut" />
 </template>
 
 <style scoped>
