@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import GoogleLogin from '@/components/navbar_user_components/GoogleLogin.vue'
 import { supabase } from '@/lib/supabaseClient'
-import Account from '@/components/navbar_user_components/Account.vue'
+import AccountMenuBar from '@/components/navbar_user_components/AccountMenuBar.vue'
 
 // const user = ref<null | Record<string, unknown>>(null)
 const session = ref()
@@ -27,7 +27,7 @@ onMounted(async () => {
     <div class="nav-right">
       <!-- Show Log Out if logged-in; otherwise, show GoogleLogin -->
       <template v-if="session">
-        <Account />
+        <AccountMenuBar />
       </template>
       <template v-else>
         <GoogleLogin />
