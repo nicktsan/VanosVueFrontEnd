@@ -1,5 +1,22 @@
 <script setup lang="ts">
-import GoogleLogin from '@/components/GoogleLogin.vue'
+import { ref, onMounted } from 'vue'
+import GoogleLogin from '@/components/navbar_user_components/GoogleLogin.vue'
+import { supabase } from '@/lib/supabaseClient'
+import UserSubMenu from '@/components/navbar_user_components/UserSubMenu.vue'
+
+const user = ref<null | Record<string, unknown>>(null)
+
+onMounted(async () => {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+  user.value = session?.user || null
+
+  // Listen to auth state changes so the navbar updates automatically.
+  supabase.auth.onAuthStateChange((_event, session) => {
+    user.value = session?.user || null
+  })
+})
 </script>
 
 <template>
@@ -9,7 +26,13 @@ import GoogleLogin from '@/components/GoogleLogin.vue'
       <slot name="left"></slot>
     </div>
     <div class="nav-right">
-      <GoogleLogin />
+      <!-- Show Log Out if logged-in; otherwise, show GoogleLogin -->
+      <template v-if="user">
+        <UserSubMenu />
+      </template>
+      <template v-else>
+        <GoogleLogin />
+      </template>
     </div>
   </header>
   <main>
