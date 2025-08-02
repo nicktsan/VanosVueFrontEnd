@@ -1,24 +1,23 @@
 <script setup lang="ts">
+import { computed, ref, toRefs } from 'vue'
+import Avatar from 'primevue/avatar'
+import Menu from 'primevue/menu'
+import router from '@/router'
 import { supabase } from '@/lib/supabaseClient'
-import { onMounted, ref, toRefs, computed } from 'vue'
-import Menubar from 'primevue/menubar'
-import { useRouter } from 'vue-router'
 
-const router = useRouter()
+interface MenuComponent {
+  toggle: (event: MouseEvent) => void
+}
+/* reference to the Menu instance so we can open/close it programmatically */
+const menu = ref<MenuComponent | null>(null)
 const props = defineProps(['session'])
 const { session } = toRefs(props)
 
-onMounted(() => {
-  console.log('User session:')
-  console.log(session?.value?.user)
-})
-
-async function handleSignOut() {
-  const { error } = await supabase.auth.signOut()
-  if (error) {
-    console.error('Sign out error:', error instanceof Error ? error.message : error)
-  }
-}
+const items = [
+  { label: 'Profile', icon: 'pi pi-user', command: () => router.push('/myprofile') },
+  { separator: true },
+  { label: 'Logout', icon: 'pi pi-sign-out', command: () => logout() },
+]
 
 const avatarUrl = computed(() => {
   return session?.value &&
@@ -29,28 +28,31 @@ const avatarUrl = computed(() => {
     : null
 })
 
-const menuItems = ref([
-  {
-    // label: '',
-    icon: 'pi pi-palette',
-    items: [
-      {
-        label: 'Profile',
-        icon: 'pi pi-user',
-        command: () => router.push('/myprofile'),
-      },
-      {
-        label: 'Log Out',
-        icon: 'pi pi-sign-out',
-        command: handleSignOut,
-      },
-    ],
-  },
-])
+function toggleMenu(event: MouseEvent) {
+  if (menu.value) {
+    menu.value.toggle(event)
+  }
+}
+
+async function logout() {
+  const { error } = await supabase.auth.signOut()
+  if (error) {
+    console.error('Sign out error:', error instanceof Error ? error.message : error)
+  }
+}
 </script>
 
 <template>
-  <Menubar :model="menuItems"> </Menubar>
+  <div>
+    <Avatar
+      :image="avatarUrl"
+      shape="circle"
+      size="large"
+      class="cursor-pointer"
+      @click="toggleMenu"
+    />
+    <Menu ref="menu" :model="items" :popup="true" />
+  </div>
 </template>
 
 <style scoped>
@@ -68,7 +70,6 @@ header {
 }
 
 main {
-  /* Add a top margin equal to or greater than the header's height */
   margin-top: 70px;
 }
 </style>
