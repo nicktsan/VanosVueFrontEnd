@@ -5,11 +5,7 @@ import Menu from 'primevue/menu'
 import router from '@/router'
 import { supabase } from '@/lib/supabaseClient'
 
-interface MenuComponent {
-  toggle: (event: MouseEvent) => void
-}
-/* reference to the Menu instance so we can open/close it programmatically */
-const menu = ref<MenuComponent | null>(null)
+const menu = ref<InstanceType<typeof Menu> | null>(null)
 const props = defineProps(['session'])
 const { session } = toRefs(props)
 
@@ -29,15 +25,14 @@ const avatarUrl = computed(() => {
 })
 
 function toggleMenu(event: MouseEvent) {
-  if (menu.value) {
-    menu.value.toggle(event)
-  }
+  menu.value?.toggle(event)
 }
 
 async function logout() {
   const { error } = await supabase.auth.signOut()
   if (error) {
-    console.error('Sign out error:', error instanceof Error ? error.message : error)
+    //Send error to sentry
+    // console.error('Sign out error:', error instanceof Error ? error.message : error)
   }
 }
 </script>
