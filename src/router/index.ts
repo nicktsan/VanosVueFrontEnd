@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import MyProfileView from '@/views/MyProfileView.vue'
+import EventsView from '@/views/EventsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/myprofile',
       name: 'myprofile',
       component: MyProfileView,
+    },
+    {
+      path: '/events',
+      name: 'events',
+      component: EventsView,
     },
   ],
 })
