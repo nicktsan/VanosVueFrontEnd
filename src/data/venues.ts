@@ -25,23 +25,26 @@ export interface Review {
 export const venues: Venue[] = [
   {
     id: '0',
-    title: 'Modern Conference Center',
-    description: 'A sleek, modern space perfect for corporate events and conferences',
-    location: 'Downtown San Francisco',
+    title: 'Vancouver Convention Center',
+    description:
+      'The Vancouver Convention Centre in downtown Vancouver is a beautiful, inspiring event space with an unbeatable waterfront location.',
+    location: '1055 Canada Pl, Vancouver, BC V6C 0C3',
     capacity: 200,
     pricePerHour: 150,
     amenities: ['WiFi', 'Projector', 'Catering Kitchen', 'Parking'],
-    images: ['/placeholder.svg'],
+    images: [
+      '/public/images/venues/Vancouver_Convention_Centre_West_Building_KK-Law-3-724x707.jpg',
+    ],
   },
   {
     id: '1',
-    title: 'Rooftop Garden Venue',
+    title: 'Fairmont Waterfront Wedding Venue',
     description: 'Beautiful outdoor space with city views, ideal for weddings and parties',
-    location: 'Mission District, SF',
+    location: '900 Canada Place Way, Vancouver, British Columbia V6C 3L5, Canada',
     capacity: 100,
     pricePerHour: 200,
     amenities: ['Garden', 'City Views', 'Sound System', 'Bar Setup'],
-    images: ['/placeholder.svg'],
+    images: ['/images/venues/Fairmont_WFC_Rustic_Credit_Faraway_Studios-6-scaled.webp'],
   },
   {
     id: '2',
@@ -51,7 +54,7 @@ export const venues: Venue[] = [
     capacity: 300,
     pricePerHour: 120,
     amenities: ['High Ceilings', 'Loading Dock', 'Basic Lighting', 'Open Floor'],
-    images: ['/placeholder.svg'],
+    images: ['/public/images/venues/industrial_warehouse.webp'],
   },
 ]
 

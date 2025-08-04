@@ -34,13 +34,6 @@
             <i class="pi pi-map-marker" />
             <span>{{ event.location }}</span>
           </div>
-
-          <div class="flex items-center gap-2">
-            <i class="pi pi-dollar" />
-            <span>
-              {{ event.price === 0 ? 'Free' : `$${event.price}` }}
-            </span>
-          </div>
         </div>
 
         <p>{{ event.description }}</p>
@@ -64,13 +57,20 @@
 
         <div class="flex flex-col gap-3">
           <label class="font-medium text-sm" for="tickets">Number of Tickets</label>
-          <InputNumber
-            id="tickets"
-            v-model="registration.tickets"
-            :min="1"
-            :max="event.maxAttendees"
-            class="w-full"
-          />
+          <div class="flex items-center gap-2">
+            <i class="pi pi-dollar" />
+            <span>
+              {{ event.price === 0 ? 'Free' : `$${event.price}` }}
+            </span>
+
+            <InputNumber
+              id="tickets"
+              v-model="registration.tickets"
+              :min="1"
+              :max="event.maxAttendees"
+              class="w-full"
+            />
+          </div>
         </div>
 
         <Button label="Confirm Registration" class="w-full" :disabled="isClosed" @click="submit" />
