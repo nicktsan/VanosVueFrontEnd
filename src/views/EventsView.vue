@@ -9,7 +9,7 @@
       <Card
         v-for="event in events"
         :key="event.id"
-        class="overflow-hidden hover:shadow-lg transition-shadow"
+        class="event-card overflow-hidden transition cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-primary hover:scale-[1.02]"
         @click="goToEvent(event.id)"
       >
         <template #header>
