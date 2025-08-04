@@ -10,6 +10,7 @@
         v-for="event in events"
         :key="event.id"
         class="overflow-hidden hover:shadow-lg transition-shadow"
+        @click="goToEvent(event.id)"
       >
         <template #header>
           <div class="flex items-start justify-between p-4 pb-0">
@@ -52,12 +53,6 @@
             </div>
           </div>
         </template>
-
-        <template #footer>
-          <div class="p-4 pt-0">
-            <Button label="Register for Event" class="w-full" />
-          </div>
-        </template>
       </Card>
     </div>
   </div>
@@ -65,11 +60,16 @@
 
 <script setup lang="ts">
 import Card from 'primevue/card'
-import Button from 'primevue/button'
 import Badge from 'primevue/badge'
 import { format } from 'date-fns'
 import { events } from '@/data/events'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+
+function goToEvent(id: string) {
+  router.push({ name: 'EventDetails', params: { id } })
+}
 function formatDate(date: Date, pattern: string) {
   return format(date, pattern)
 }

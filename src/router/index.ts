@@ -6,6 +6,8 @@ import VenuesView from '@/views/VenuesView.vue'
 import CreateEventView from '@/views/CreateEventView.vue'
 import VenueDetailsView from '@/views/VenueDetailsView.vue'
 import { venues, hosts, reviews } from '@/data/venues'
+import EventDetailsView from '@/views/EventDetailsView.vue'
+import { events } from '@/data/events'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,9 +20,6 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
     {
@@ -54,6 +53,19 @@ const router = createRouter({
           venue: venues[id],
           host: hosts[id],
           reviews: reviews.filter((r) => r.id.startsWith(id)),
+        }
+      },
+    },
+    {
+      path: '/eventdetails/:id',
+      name: 'EventDetails',
+      component: EventDetailsView,
+
+      props: (route) => {
+        const id = route.params.id as string
+
+        return {
+          event: events[id],
         }
       },
     },
