@@ -1,18 +1,15 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <!-- Page Header -->
     <div class="mb-8 text-center md:text-left">
       <h1 class="text-3xl font-bold mb-2">Create an Event</h1>
       <p class="text-muted-foreground max-w-2xl">
-        Set up your event details, ticketing, and capacity in a few clicks—just like Luma’s event
-        creation flow.
+        Set up your event details, ticketing, and capacity in a few clicks—just like Luma’s
+        event-creation flow.
       </p>
     </div>
 
-    <!-- Event Form -->
     <form @submit.prevent="submit" class="space-y-8">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Start Time -->
         <div class="flex flex-col gap-2">
           <label class="font-medium" for="start">Start Time</label>
           <Calendar
@@ -26,7 +23,6 @@
           />
         </div>
 
-        <!-- End Time -->
         <div class="flex flex-col gap-2">
           <label class="font-medium" for="end">End Time</label>
           <Calendar
@@ -40,7 +36,6 @@
           />
         </div>
 
-        <!-- Time Zone -->
         <div class="flex flex-col gap-2">
           <label class="font-medium" for="timezone">Time Zone</label>
           <Dropdown
@@ -54,7 +49,6 @@
           />
         </div>
 
-        <!-- Location -->
         <div class="flex flex-col gap-2">
           <label class="font-medium" for="location">Event Location</label>
           <InputText
@@ -65,7 +59,6 @@
           />
         </div>
 
-        <!-- Ticket Price -->
         <div class="flex flex-col gap-2">
           <label class="font-medium" for="price">Ticket Price</label>
           <InputNumber
@@ -77,13 +70,11 @@
           />
         </div>
 
-        <!-- Capacity -->
         <div class="flex flex-col gap-2">
           <label class="font-medium" for="capacity">Capacity</label>
           <InputNumber id="capacity" v-model="form.capacity" :min="1" :step="1" class="w-full" />
         </div>
 
-        <!-- Approval Required -->
         <div class="flex flex-col gap-2">
           <label class="font-medium" for="approval">Approval Required</label>
           <ToggleButton
@@ -96,7 +87,6 @@
         </div>
       </div>
 
-      <!-- Description -->
       <div class="flex flex-col gap-2">
         <label class="font-medium" for="description">Description</label>
         <Textarea
@@ -104,11 +94,30 @@
           v-model="form.description"
           rows="5"
           autoResize
-          placeholder="Tell attendees what to expect..."
+          placeholder="Tell attendees what to expect…"
         />
       </div>
+      <div class="flex flex-col gap-3">
+        <label class="font-medium">Event Images</label>
+        <FileUpload
+          mode="basic"
+          chooseLabel="Upload Images"
+          :customUpload="true"
+          accept="image/*"
+          multiple
+          @uploader="onImageSelect"
+        />
+        <div v-if="form.images.length" class="grid grid-cols-3 gap-3">
+          <img
+            v-for="img in form.images"
+            :key="img"
+            :src="img"
+            alt="Preview"
+            class="w-full h-24 object-cover rounded-md"
+          />
+        </div>
+      </div>
 
-      <!-- Submit -->
       <div class="pt-4">
         <Button type="submit" label="Create Event" class="w-full md:w-auto" />
       </div>
@@ -125,13 +134,12 @@ import Textarea from 'primevue/textarea'
 import InputNumber from 'primevue/inputnumber'
 import Button from 'primevue/button'
 import ToggleButton from 'primevue/togglebutton'
+import FileUpload from 'primevue/fileupload'
 
 interface TimezoneOption {
   label: string
   value: string
 }
-
-// A small, representative subset of common time zones
 const timezones: TimezoneOption[] = [
   { label: 'UTC', value: 'UTC' },
   { label: 'Pacific Time (US & Canada)', value: 'America/Los_Angeles' },
@@ -152,6 +160,7 @@ interface EventForm {
   ticketPrice: number | null
   capacity: number | null
   approvalRequired: boolean
+  images: string[]
 }
 
 const form = ref<EventForm>({
@@ -163,7 +172,21 @@ const form = ref<EventForm>({
   ticketPrice: null,
   capacity: null,
   approvalRequired: false,
+  images: [],
 })
+
+function onImageSelect(event: any) {
+  const files: File[] = event.files ?? []
+  files.forEach((file) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result
+      if (typeof dataUrl === 'string') form.value.images.push(dataUrl)
+    }
+    reader.readAsDataURL(file)
+  })
+  event.options.clear()
+}
 
 function submit() {
   if (!form.value.startTime || !form.value.endTime) {
@@ -174,6 +197,7 @@ function submit() {
     alert('Please choose a time zone.')
     return
   }
+  console.log('Event payload', { ...form.value })
   alert('Event created! (Check console for payload)')
 }
 </script>
