@@ -4,6 +4,7 @@ import MyProfileView from '@/views/MyProfileView.vue'
 import EventsView from '@/views/EventsView.vue'
 import VenuesView from '@/views/VenuesView.vue'
 import CreateEventView from '@/views/CreateEventView.vue'
+import CreateVenueView from '@/views/CreateVenueView.vue'
 import VenueDetailsView from '@/views/VenueDetailsView.vue'
 import { venues, hosts, reviews } from '@/data/venues'
 import EventDetailsView from '@/views/EventDetailsView.vue'
@@ -41,6 +42,11 @@ const router = createRouter({
       path: '/create-event',
       name: 'create-event',
       component: CreateEventView,
+    },
+    {
+      path: '/create-venue',
+      name: 'create-venue',
+      component: CreateVenueView,
     },
     {
       path: '/venuedetails/:id',
