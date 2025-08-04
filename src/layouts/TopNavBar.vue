@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import GoogleLogin from '@/components/navbar_user_components/GoogleLogin.vue'
 import { supabase } from '@/lib/supabaseClient'
 import AccountMenuBar from '@/components/navbar_user_components/AccountMenuBar.vue'
+import Button from 'primevue/button'
 
 const session = ref()
 onMounted(async () => {
@@ -19,7 +20,17 @@ onMounted(async () => {
 <template>
   <header>
     <div class="nav-left">
-      <slot name="left"></slot>
+      <slot name="left">
+        <router-link to="/">
+          <Button label="Home" size="large" class="w-full sm:w-auto p-button-outlined" />
+        </router-link>
+        <router-link to="/venues">
+          <Button label="Browse Venues" size="large" class="w-full sm:w-auto p-button-outlined" />
+        </router-link>
+        <router-link to="/events">
+          <Button label="Discover Events" size="large" class="w-full sm:w-auto p-button-outlined" />
+        </router-link>
+      </slot>
     </div>
     <div class="nav-right">
       <template v-if="session">
