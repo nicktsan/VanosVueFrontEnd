@@ -56,8 +56,6 @@
                 +{{ venue.amenities.length - 3 }} more
               </Badge>
             </div>
-
-            <Button label="View Details & Book" class="w-full" @click.stop="goToVenue(venue.id)" />
           </div>
         </template>
       </Card>
@@ -67,7 +65,6 @@
 
 <script setup lang="ts">
 import Card from 'primevue/card'
-import Button from 'primevue/button'
 import Badge from 'primevue/badge'
 import { venues } from '@/data/venues'
 import { useRouter } from 'vue-router'

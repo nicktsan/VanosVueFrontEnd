@@ -13,6 +13,9 @@
         @click="goToEvent(event.id)"
       >
         <template #header>
+          <div class="aspect-video bg-muted">
+            <img :src="event.picture" :alt="event.title" class="w-full h-full object-cover" />
+          </div>
           <div class="flex items-start justify-between p-4 pb-0">
             <div class="flex-1">
               <h3 class="text-lg font-semibold mb-1">{{ event.title }}</h3>
