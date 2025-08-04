@@ -77,50 +77,7 @@
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 import Badge from 'primevue/badge'
-
-interface Venue {
-  id: string
-  title: string
-  description: string
-  location: string
-  capacity: number
-  pricePerHour: number
-  amenities: string[]
-  images: string[]
-}
-
-const venues: Venue[] = [
-  {
-    id: '1',
-    title: 'Modern Conference Center',
-    description: 'A sleek, modern space perfect for corporate events and conferences',
-    location: 'Downtown San Francisco',
-    capacity: 200,
-    pricePerHour: 150,
-    amenities: ['WiFi', 'Projector', 'Catering Kitchen', 'Parking'],
-    images: ['/placeholder.svg'],
-  },
-  {
-    id: '2',
-    title: 'Rooftop Garden Venue',
-    description: 'Beautiful outdoor space with city views, ideal for weddings and parties',
-    location: 'Mission District, SF',
-    capacity: 100,
-    pricePerHour: 200,
-    amenities: ['Garden', 'City Views', 'Sound System', 'Bar Setup'],
-    images: ['/placeholder.svg'],
-  },
-  {
-    id: '3',
-    title: 'Industrial Warehouse Space',
-    description: 'Raw, industrial space perfect for art shows, pop-ups, and creative events',
-    location: 'SOMA, San Francisco',
-    capacity: 300,
-    pricePerHour: 120,
-    amenities: ['High Ceilings', 'Loading Dock', 'Basic Lighting', 'Open Floor'],
-    images: ['/placeholder.svg'],
-  },
-]
+import { venues } from '@/data/venues'
 </script>
 
 <!--

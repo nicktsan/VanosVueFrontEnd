@@ -4,6 +4,8 @@ import MyProfileView from '@/views/MyProfileView.vue'
 import EventsView from '@/views/EventsView.vue'
 import VenuesView from '@/views/VenuesView.vue'
 import CreateEventView from '@/views/CreateEventView.vue'
+import VenueDetailsView from '@/views/VenueDetailsView.vue'
+import { venues, hosts, reviews } from '@/data/venues'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +42,20 @@ const router = createRouter({
       path: '/create-event',
       name: 'create-event',
       component: CreateEventView,
+    },
+    {
+      path: '/venuedetails/:id',
+      name: 'VenueDetails',
+      component: VenueDetailsView,
+      props: (route) => {
+        const id = route.params.id as string
+
+        return {
+          venue: venues[id],
+          host: hosts[id],
+          reviews: reviews.filter((r) => r.id.startsWith(id)),
+        }
+      },
     },
   ],
 })
