@@ -1,6 +1,5 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <!-- Image Gallery -->
     <Galleria
       :value="venue.images"
       :numVisible="3"
@@ -17,7 +16,6 @@
       </template>
     </Galleria>
 
-    <!-- Venue Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
       <div>
         <h1 class="text-3xl font-bold mb-2">{{ venue.title }}</h1>
@@ -29,13 +27,10 @@
       </div>
     </div>
 
-    <!-- Venue Details & Booking -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Left: Venue Info & Amenities -->
       <div class="lg:col-span-2 space-y-6">
         <p>{{ venue.description }}</p>
 
-        <!-- Amenities -->
         <div>
           <h3 class="text-xl font-semibold mb-2">Amenities</h3>
           <div class="flex flex-wrap gap-2">
@@ -45,7 +40,6 @@
           </div>
         </div>
 
-        <!-- Host Info -->
         <div class="p-4 border rounded-xl flex items-start gap-4">
           <Avatar :label="hostInitials" shape="circle" size="large" />
           <div>
@@ -54,7 +48,6 @@
           </div>
         </div>
 
-        <!-- Reviews -->
         <div>
           <h3 class="text-xl font-semibold mb-4">User Reviews</h3>
           <div v-if="reviews.length === 0" class="text-muted-foreground text-sm">
@@ -87,11 +80,9 @@
         </div>
       </div>
 
-      <!-- Right: Booking Form -->
       <div class="p-6 border rounded-xl space-y-6">
         <h3 class="text-xl font-semibold mb-4">Book This Venue</h3>
         <div class="flex flex-col gap-3">
-          <!-- Date & Time -->
           <label class="font-medium" for="date">Date & Time</label>
           <Calendar
             id="date"
@@ -102,7 +93,6 @@
             class="w-full"
           />
 
-          <!-- Number of Attendees -->
           <label class="font-medium" for="attendees">Number of Attendees</label>
           <InputNumber
             id="attendees"
@@ -112,7 +102,6 @@
             class="w-full"
           />
 
-          <!-- Submit -->
           <Button label="Request Booking" class="w-full mt-4" @click="submitBooking" />
         </div>
         <small class="text-xs text-muted-foreground block"
@@ -156,7 +145,6 @@ function submitBooking() {
     alert(`Attendees must be between 1 and ${props.venue.capacity}.`)
     return
   }
-  //console.log('Booking request', booking)
   alert('Booking request submitted!')
 }
 

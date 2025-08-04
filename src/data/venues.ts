@@ -24,7 +24,7 @@ export interface Review {
 
 export const venues: Venue[] = [
   {
-    id: '1',
+    id: '0',
     title: 'Modern Conference Center',
     description: 'A sleek, modern space perfect for corporate events and conferences',
     location: 'Downtown San Francisco',
@@ -34,7 +34,7 @@ export const venues: Venue[] = [
     images: ['/placeholder.svg'],
   },
   {
-    id: '2',
+    id: '1',
     title: 'Rooftop Garden Venue',
     description: 'Beautiful outdoor space with city views, ideal for weddings and parties',
     location: 'Mission District, SF',
@@ -44,7 +44,7 @@ export const venues: Venue[] = [
     images: ['/placeholder.svg'],
   },
   {
-    id: '3',
+    id: '2',
     title: 'Industrial Warehouse Space',
     description: 'Raw, industrial space perfect for art shows, pop-ups, and creative events',
     location: 'SOMA, San Francisco',
@@ -56,28 +56,28 @@ export const venues: Venue[] = [
 ]
 
 export const hosts: Record<string, Host> = {
-  '1': { name: 'Alice Johnson', bio: 'Event-space owner & coffee aficionado' },
-  '2': { name: 'Bob Smith', bio: 'Wedding planner with a passion for design' },
-  '3': { name: 'Charlie Brown', bio: 'Creative director and event space enthusiast' },
+  '0': { name: 'Alice Johnson', bio: 'Event-space owner & coffee aficionado' },
+  '1': { name: 'Bob Smith', bio: 'Wedding planner with a passion for design' },
+  '2': { name: 'Charlie Brown', bio: 'Creative director and event space enthusiast' },
 }
 
 export const reviews: Review[] = [
   {
-    id: 'r1',
+    id: '0',
     user: 'David Lee',
     rating: 5,
     comment: 'Great acoustics and friendly staff!',
     date: new Date('2025-06-01'),
   },
   {
-    id: 'r2',
+    id: '1',
     user: 'Emma Wilson',
     rating: 4,
     comment: 'Beautiful venue.',
     date: new Date('2025-06-02'),
   },
   {
-    id: 'r3',
+    id: '2',
     user: 'Frank Garcia',
     rating: 3,
     comment: 'Nice space',
