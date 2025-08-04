@@ -140,10 +140,8 @@ import Button from 'primevue/button'
 
 import type { Venue, Host, Review } from '@/data/venues'
 
-// ----- Props -----
 const props = defineProps<{ venue: Venue; host: Host; reviews: Review[] }>()
 
-// ----- Booking State -----
 const booking = reactive({
   dateTime: null as Date | null,
   attendees: 1,
@@ -158,12 +156,10 @@ function submitBooking() {
     alert(`Attendees must be between 1 and ${props.venue.capacity}.`)
     return
   }
-  // Replace with actual API call or emit
-  console.log('Booking request', booking)
+  //console.log('Booking request', booking)
   alert('Booking request submitted!')
 }
 
-// ----- Computed Helpers -----
 const averageRating = computed(() => {
   if (props.reviews.length === 0) return 0
   const sum = props.reviews.reduce((acc, r) => acc + r.rating, 0)
@@ -184,11 +180,3 @@ function formatDate(date: Date, pattern: string) {
   return format(date, pattern)
 }
 </script>
-
-<!--
-  Dependencies:
-  - PrimeVue components: Galleria, Calendar, InputNumber, Rating, Badge, Card, Avatar, Button
-  - PrimeIcons
-  - TailwindCSS for layout & utility classes
-  Register components globally or locally in your Vue app as needed.
--->

@@ -166,9 +166,6 @@ const form = ref<EventForm>({
 })
 
 function submit() {
-  // TODO: Replace with API call or emit event to parent
-  console.log('Event payload', form.value)
-  // Basic client‑side validation example
   if (!form.value.startTime || !form.value.endTime) {
     alert('Please select both start and end times.')
     return
@@ -180,11 +177,3 @@ function submit() {
   alert('Event created! (Check console for payload)')
 }
 </script>
-
-<!--
-  Dependencies:
-  - PrimeVue (Calendar, Dropdown, Input components, ToggleButton, Button)
-  - PrimeIcons
-  - TailwindCSS for layout & spacing classes
-  Simply register the components globally or locally in your Vue app and ensure CSS imports (PrimeVue + Tailwind) are in place.
--->

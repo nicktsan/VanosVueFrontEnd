@@ -1,29 +1,24 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <!-- Header -->
     <div class="mb-8">
       <h1 class="text-3xl font-bold mb-2">Browse Venues</h1>
       <p class="text-muted-foreground">Discover unique spaces for your next event</p>
     </div>
 
-    <!-- Venues Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <Card
         v-for="venue in venues"
         :key="venue.id"
         class="overflow-hidden hover:shadow-lg transition-shadow"
       >
-        <!-- Image -->
         <template #header>
           <div class="aspect-video bg-muted">
             <img :src="venue.images[0]" :alt="venue.title" class="w-full h-full object-cover" />
           </div>
         </template>
 
-        <!-- Content -->
         <template #content>
           <div class="p-4 space-y-4">
-            <!-- Title & Description -->
             <div>
               <h3 class="text-lg font-semibold mb-1">{{ venue.title }}</h3>
               <p class="text-sm text-muted-foreground">
@@ -31,13 +26,11 @@
               </p>
             </div>
 
-            <!-- Location -->
             <div class="flex items-center gap-2 text-sm text-muted-foreground">
               <i class="pi pi-map-marker" />
               <span>{{ venue.location }}</span>
             </div>
 
-            <!-- Capacity & Price -->
             <div class="flex items-center justify-between text-sm">
               <div class="flex items-center gap-2">
                 <i class="pi pi-users" />
@@ -49,7 +42,6 @@
               </div>
             </div>
 
-            <!-- Amenities -->
             <div class="flex flex-wrap gap-1">
               <Badge
                 v-for="amenity in venue.amenities.slice(0, 3)"
@@ -64,7 +56,6 @@
               </Badge>
             </div>
 
-            <!-- Action -->
             <Button label="View Details & Book" class="w-full" />
           </div>
         </template>
@@ -79,7 +70,3 @@ import Button from 'primevue/button'
 import Badge from 'primevue/badge'
 import { venues } from '@/data/venues'
 </script>
-
-<!--
-  This component relies on PrimeVue, primeicons, and TailwindCSS being configured in your project.
--->

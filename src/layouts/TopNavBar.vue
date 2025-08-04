@@ -10,7 +10,6 @@ onMounted(async () => {
     session.value = data.session
   })
 
-  // Listen to auth state changes so the navbar updates automatically.
   supabase.auth.onAuthStateChange((_, _session) => {
     session.value = _session
   })
@@ -20,11 +19,9 @@ onMounted(async () => {
 <template>
   <header>
     <div class="nav-left">
-      <!-- Optional: add logo or navigation links here -->
       <slot name="left"></slot>
     </div>
     <div class="nav-right">
-      <!-- Show Log Out if logged-in; otherwise, show GoogleLogin -->
       <template v-if="session">
         <AccountMenuBar :session="session" />
       </template>
@@ -53,7 +50,6 @@ header {
 }
 
 main {
-  /* Add a top margin equal to or greater than the header's height */
   margin-top: 70px;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-background">
-    <!-- Hero Section -->
     <section class="container mx-auto px-4 py-20 text-center">
       <div class="max-w-4xl mx-auto">
         <h1
@@ -27,7 +26,6 @@
       </div>
     </section>
 
-    <!-- Features Section -->
     <section class="container mx-auto px-4 py-16">
       <div class="text-center mb-12">
         <h2 class="text-3xl font-bold mb-4">Everything You Need</h2>
@@ -69,7 +67,6 @@
       </div>
     </section>
 
-    <!-- How It Works Section -->
     <section class="bg-muted/30 py-16">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
@@ -78,7 +75,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <!-- Venue Hosts -->
           <div class="space-y-6">
             <h3 class="text-2xl font-semibold">For Venue Hosts</h3>
             <div v-for="step in hostSteps" :key="step.number" class="flex items-start space-x-3">
@@ -91,7 +87,6 @@
             </div>
           </div>
 
-          <!-- Event Organizers -->
           <div class="space-y-6">
             <h3 class="text-2xl font-semibold">For Event Organizers</h3>
             <div
@@ -134,8 +129,3 @@ const organizerSteps: Step[] = [
   { number: 3, text: 'Host a successful event' },
 ]
 </script>
-
-<!--
-  Styles are managed with TailwindCSS utility classes.
-  Make sure Tailwind and PrimeVue (including primeicons) are configured in your project.
--->

@@ -1,12 +1,10 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <!-- Header -->
     <div class="mb-8 text-center md:text-left">
       <h1 class="text-3xl font-bold mb-2">Upcoming Events</h1>
       <p class="text-muted-foreground">Discover and register for exciting events in your area</p>
     </div>
 
-    <!-- Events Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <Card
         v-for="event in events"
@@ -127,8 +125,3 @@ function formatDate(date: Date, pattern: string) {
   return format(date, pattern)
 }
 </script>
-
-<!--
-  This component relies on PrimeVue & TailwindCSS being configured in your project.
-  PrimeIcons (pi-*) are used for the icons; ensure the primeicons package is installed.
--->
