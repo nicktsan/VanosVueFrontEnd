@@ -32,9 +32,7 @@ export const venues: Venue[] = [
     capacity: 200,
     pricePerHour: 150,
     amenities: ['WiFi', 'Projector', 'Catering Kitchen', 'Parking'],
-    images: [
-      '/public/images/venues/Vancouver_Convention_Centre_West_Building_KK-Law-3-724x707.jpg',
-    ],
+    images: ['/images/venues/Vancouver_Convention_Centre_West_Building_KK-Law-3-724x707.jpg'],
   },
   {
     id: '1',
@@ -54,7 +52,7 @@ export const venues: Venue[] = [
     capacity: 300,
     pricePerHour: 120,
     amenities: ['High Ceilings', 'Loading Dock', 'Basic Lighting', 'Open Floor'],
-    images: ['/public/images/venues/industrial_warehouse.webp'],
+    images: ['/images/venues/industrial_warehouse.webp'],
   },
 ]
 

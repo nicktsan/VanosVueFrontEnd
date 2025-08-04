@@ -26,7 +26,7 @@ export const events: Event[] = [
     maxAttendees: 150,
     price: 25,
     status: 'published',
-    picture: '/public/images/events/tech_startup_networking_mixer.jpg',
+    picture: '/images/events/tech_startup_networking_mixer.jpg',
   },
   {
     id: '1',
@@ -40,7 +40,7 @@ export const events: Event[] = [
     maxAttendees: 50,
     price: 0,
     status: 'published',
-    picture: '/public/images/events/sustainable_living_workshop.jpg',
+    picture: '/images/events/sustainable_living_workshop.jpg',
   },
   {
     id: '2',
@@ -54,6 +54,6 @@ export const events: Event[] = [
     maxAttendees: 200,
     price: 15,
     status: 'published',
-    picture: '/public/images/events/support_local_artists.jpg',
+    picture: '/images/events/support_local_artists.jpg',
   },
 ]
