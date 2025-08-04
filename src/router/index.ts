@@ -56,7 +56,7 @@ const router = createRouter({
         const id = route.params.id as string
 
         return {
-          venue: venues[id],
+          venue: venues.find((v) => v.id === id)!,
           host: hosts[id],
           reviews: reviews.filter((r) => r.id.startsWith(id)),
         }
@@ -71,7 +71,7 @@ const router = createRouter({
         const id = route.params.id as string
 
         return {
-          event: events[id],
+          event: events.find((e) => e.id === id)!,
         }
       },
     },

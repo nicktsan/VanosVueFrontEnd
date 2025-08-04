@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { supabase } from '@/lib/supabaseClient'
-
-const callback = async (response) => {
-  const { data, error } = await supabase.auth.signInWithIdToken({
+import type { CallbackTypes } from 'vue3-google-login'
+const callback: CallbackTypes.CredentialCallback = async (response) => {
+  /*(const { data, error } = */ await supabase.auth.signInWithIdToken({
     provider: 'google',
     token: response.credential,
   })
