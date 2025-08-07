@@ -12,8 +12,8 @@
           planning from venue booking to attendee registration.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <router-link to="/venues">
-            <Button label="Browse Venues" size="large" class="w-full sm:w-auto" />
+          <router-link to="/communities">
+            <Button label="Browse Communities" size="large" class="w-full sm:w-auto" />
           </router-link>
           <router-link to="/events">
             <Button
