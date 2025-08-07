@@ -1,5 +1,3 @@
-import { ref } from 'vue'
-
 interface Community {
   id: string
   name: string
@@ -9,6 +7,7 @@ interface Community {
   creator: string
   members: number
   lookingFor: string[]
+  location: string
   pastCollaborators?: string[]
   currentCollaborators?: string[]
 }
@@ -36,6 +35,7 @@ const communities: Community[] = [
     image: 'https://source.unsplash.com/random/800x400?code',
     creator: 'Evan You',
     members: 8740,
+    location: 'Vancouver, BC, Canada',
     lookingFor: ['Food'],
     pastCollaborators: ['Urban Sketchers'],
   },
@@ -47,6 +47,7 @@ const communities: Community[] = [
     image: 'https://source.unsplash.com/random/800x400?art',
     creator: 'Gabi Campanario',
     members: 1542,
+    location: 'Vancouver, BC, Canada',
     lookingFor: ['Fitness'],
     pastCollaborators: ['Vue.js Enthusiasts'],
   },
@@ -58,6 +59,7 @@ const communities: Community[] = [
     image: 'https://source.unsplash.com/random/800x400?running',
     creator: 'Sarah Kim',
     members: 312,
+    location: 'Vancouver, BC, Canada',
     lookingFor: ['Art'],
   },
   {
@@ -68,6 +70,7 @@ const communities: Community[] = [
     image: 'https://source.unsplash.com/random/800x400?gaming',
     creator: 'Mark Brown',
     members: 2115,
+    location: 'Vancouver, BC, Canada',
     lookingFor: ['Tech', 'Gaming'],
     currentCollaborators: ['Nick Gaming Community'],
   },
@@ -79,6 +82,7 @@ const communities: Community[] = [
     image: 'https://source.unsplash.com/random/800x400?food',
     creator: 'Nisha Vora',
     members: 974,
+    location: 'Vancouver, BC, Canada',
     lookingFor: ['Education', 'Agriculture'],
   },
   {
@@ -89,6 +93,7 @@ const communities: Community[] = [
     image: 'https://source.unsplash.com/random/800x400?education',
     creator: 'Ali Abdaal',
     members: 5830,
+    location: 'Vancouver, BC, Canada',
     lookingFor: ['Tech', 'Art', 'Education'],
   },
   {
@@ -99,6 +104,7 @@ const communities: Community[] = [
     image: 'https://source.unsplash.com/random/800x400?education',
     creator: 'Nicholas Tsang',
     members: 123,
+    location: 'Vancouver, BC, Canada',
     lookingFor: ['Gaming'],
     currentCollaborators: ['Indie Game Devs'],
   },

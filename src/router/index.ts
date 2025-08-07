@@ -10,6 +10,8 @@ import { venues, hosts, reviews } from '@/data/venues'
 import EventDetailsView from '@/views/EventDetailsView.vue'
 import { events } from '@/data/events'
 import CommunitiesView from '@/views/CommunitiesView.vue'
+import CommunityDetailsView from '@/views/CommunityDetailsView.vue'
+import { communities } from '@/data/communities'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -78,6 +80,19 @@ const router = createRouter({
 
         return {
           event: events.find((e) => e.id === id)!,
+        }
+      },
+    },
+    {
+      path: '/communitydetails/:id',
+      name: 'CommunityDetails',
+      component: CommunityDetailsView,
+
+      props: (route) => {
+        const id = route.params.id as string
+
+        return {
+          community: communities.find((e) => e.id === id)!,
         }
       },
     },
