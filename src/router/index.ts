@@ -9,6 +9,7 @@ import VenueDetailsView from '@/views/VenueDetailsView.vue'
 import { venues, hosts, reviews } from '@/data/venues'
 import EventDetailsView from '@/views/EventDetailsView.vue'
 import { events } from '@/data/events'
+import CommunitiesView from '@/views/CommunitiesView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,11 @@ const router = createRouter({
       path: '/venues',
       name: 'venues',
       component: VenuesView,
+    },
+    {
+      path: '/communities',
+      name: 'communities',
+      component: CommunitiesView,
     },
     {
       path: '/create-event',
