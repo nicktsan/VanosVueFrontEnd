@@ -27,7 +27,7 @@ const categories: CategoryOption[] = [
 
 const communities = ref<Community[]>([
   {
-    id: '1',
+    id: '0',
     name: 'Vue.js Enthusiasts',
     description: 'A global community for developers building with the Vue framework.',
     category: 'Tech',
@@ -37,7 +37,7 @@ const communities = ref<Community[]>([
     lookingFor: ['Food'],
   },
   {
-    id: '2',
+    id: '1',
     name: 'Urban Sketchers',
     description: 'Join artists who love sketching cityscapes and sharing techniques.',
     category: 'Art',
@@ -47,7 +47,7 @@ const communities = ref<Community[]>([
     lookingFor: ['Fitness'],
   },
   {
-    id: '3',
+    id: '2',
     name: 'Trail Runners Club',
     description: 'Weekend runs, training tips, and race meet-ups for all levels.',
     category: 'Fitness',
@@ -57,7 +57,7 @@ const communities = ref<Community[]>([
     lookingFor: ['Art'],
   },
   {
-    id: '4',
+    id: '3',
     name: 'Indie Game Devs',
     description: 'Collaborate, showcase, and get feedback on your indie game projects.',
     category: 'Gaming',
@@ -67,7 +67,7 @@ const communities = ref<Community[]>([
     lookingFor: ['Tech', 'Gaming'],
   },
   {
-    id: '5',
+    id: '4',
     name: 'Plant-Based Cooking',
     description: 'Recipes, tips, and challenges for healthy plant-based eating.',
     category: 'Food',
@@ -77,7 +77,7 @@ const communities = ref<Community[]>([
     lookingFor: ['Education', 'Agriculture'],
   },
   {
-    id: '6',
+    id: '5',
     name: 'Lifelong Learners',
     description: 'Discuss online courses, share resources, and stay curious together.',
     category: 'Education',
@@ -85,6 +85,16 @@ const communities = ref<Community[]>([
     creator: 'Ali Abdaal',
     members: 5830,
     lookingFor: ['Tech', 'Art', 'Education'],
+  },
+  {
+    id: '6',
+    name: 'Vancouver Smash Bros Melee Community',
+    description: 'Get together to play Super Smash Bros Melee',
+    category: 'Gaming',
+    image: 'https://source.unsplash.com/random/800x400?education',
+    creator: 'Nicholas Tsang',
+    members: 123,
+    lookingFor: ['Gaming'],
   },
 ])
 export { categories, communities }
