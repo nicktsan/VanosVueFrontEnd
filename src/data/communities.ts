@@ -27,7 +27,7 @@ const categories: CategoryOption[] = [
   { label: 'Food', value: 'Food' },
 ]
 
-const communities = ref<Community[]>([
+const communities: Community[] = [
   {
     id: '0',
     name: 'Vue.js Enthusiasts',
@@ -102,6 +102,6 @@ const communities = ref<Community[]>([
     lookingFor: ['Gaming'],
     currentCollaborators: ['Indie Game Devs'],
   },
-])
+]
 export { categories, communities }
 export type { Community, CategoryOption }

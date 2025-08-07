@@ -88,7 +88,7 @@ const selectedCategories = ref<string[]>([])
 const search = ref('')
 
 const filteredCommunities = computed(() => {
-  let list = communities.value
+  let list = communities
 
   if (selectedCategories.value.length) {
     list = list.filter((c) => selectedCategories.value.includes(c.category))
