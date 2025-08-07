@@ -1,6 +1,5 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <!-- Header / Hero -->
     <div class="flex flex-col lg:flex-row gap-8 mb-10">
       <img
         :src="community.image"
@@ -23,19 +22,6 @@
         </div>
 
         <p>{{ community.description }}</p>
-      </div>
-    </div>
-
-    <!-- Registration & Details Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-      <!-- Additional Details (placeholder for future) -->
-      <div class="lg:col-span-2 space-y-6">
-        <!-- You can place agenda, speaker bios, or a map embed here -->
-      </div>
-
-      <!-- Registration Card -->
-      <div class="border rounded-xl p-6 space-y-4 shadow-sm sticky top-24">
-        <h2 class="text-xl font-semibold">Register for this Event</h2>
       </div>
     </div>
   </div>
