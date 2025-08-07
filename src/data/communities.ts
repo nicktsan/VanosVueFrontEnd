@@ -8,7 +8,9 @@ interface Community {
   image: string
   creator: string
   members: number
-  lookingFor: string[] // NEW
+  lookingFor: string[]
+  pastCollaborators?: string[]
+  currentCollaborators?: string[]
 }
 
 interface CategoryOption {
@@ -35,6 +37,7 @@ const communities = ref<Community[]>([
     creator: 'Evan You',
     members: 8740,
     lookingFor: ['Food'],
+    pastCollaborators: ['Urban Sketchers'],
   },
   {
     id: '1',
@@ -45,6 +48,7 @@ const communities = ref<Community[]>([
     creator: 'Gabi Campanario',
     members: 1542,
     lookingFor: ['Fitness'],
+    pastCollaborators: ['Vue.js Enthusiasts'],
   },
   {
     id: '2',
@@ -65,6 +69,7 @@ const communities = ref<Community[]>([
     creator: 'Mark Brown',
     members: 2115,
     lookingFor: ['Tech', 'Gaming'],
+    currentCollaborators: ['Nick Gaming Community'],
   },
   {
     id: '4',
@@ -95,6 +100,7 @@ const communities = ref<Community[]>([
     creator: 'Nicholas Tsang',
     members: 123,
     lookingFor: ['Gaming'],
+    currentCollaborators: ['Indie Game Devs'],
   },
 ])
 export { categories, communities }
