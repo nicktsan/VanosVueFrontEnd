@@ -8,6 +8,7 @@ interface Community {
   image: string
   creator: string
   members: number
+  lookingFor: string[] // NEW
 }
 
 interface CategoryOption {
@@ -33,6 +34,7 @@ const communities = ref<Community[]>([
     image: 'https://source.unsplash.com/random/800x400?code',
     creator: 'Evan You',
     members: 8740,
+    lookingFor: ['Food'],
   },
   {
     id: '2',
@@ -42,6 +44,7 @@ const communities = ref<Community[]>([
     image: 'https://source.unsplash.com/random/800x400?art',
     creator: 'Gabi Campanario',
     members: 1542,
+    lookingFor: ['Fitness'],
   },
   {
     id: '3',
@@ -51,6 +54,7 @@ const communities = ref<Community[]>([
     image: 'https://source.unsplash.com/random/800x400?running',
     creator: 'Sarah Kim',
     members: 312,
+    lookingFor: ['Art'],
   },
   {
     id: '4',
@@ -60,6 +64,7 @@ const communities = ref<Community[]>([
     image: 'https://source.unsplash.com/random/800x400?gaming',
     creator: 'Mark Brown',
     members: 2115,
+    lookingFor: ['Tech', 'Gaming'],
   },
   {
     id: '5',
@@ -69,6 +74,7 @@ const communities = ref<Community[]>([
     image: 'https://source.unsplash.com/random/800x400?food',
     creator: 'Nisha Vora',
     members: 974,
+    lookingFor: ['Education', 'Agriculture'],
   },
   {
     id: '6',
@@ -78,8 +84,8 @@ const communities = ref<Community[]>([
     image: 'https://source.unsplash.com/random/800x400?education',
     creator: 'Ali Abdaal',
     members: 5830,
+    lookingFor: ['Tech', 'Art', 'Education'],
   },
 ])
-
 export { categories, communities }
 export type { Community, CategoryOption }

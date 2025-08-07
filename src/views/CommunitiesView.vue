@@ -46,8 +46,20 @@
             {{ community.description }}
           </p>
 
-          <div class="flex flex-wrap gap-1 mb-3">
+          <div class="flex flex-wrap gap-1 mb-4">
             <Tag :value="community.category" severity="contrast" />
+          </div>
+
+          <div class="mb-4">
+            <h4 class="text-sm font-medium mb-1">Looking for</h4>
+            <div class="flex flex-wrap gap-1">
+              <Tag
+                v-for="cat in community.lookingFor"
+                :key="cat"
+                :value="cat"
+                severity="secondary"
+              />
+            </div>
           </div>
 
           <div class="flex items-center justify-between text-xs text-muted-foreground">
@@ -79,12 +91,12 @@ const filteredCommunities = computed(() => {
   let list = communities.value
 
   if (selectedCategories.value.length) {
-    list = list.filter((c: { category: string }) => selectedCategories.value.includes(c.category))
+    list = list.filter((c) => selectedCategories.value.includes(c.category))
   }
 
   if (search.value.trim()) {
     const q = search.value.trim().toLowerCase()
-    list = list.filter((c: { name: string }) => c.name.toLowerCase().includes(q))
+    list = list.filter((c) => c.name.toLowerCase().includes(q))
   }
 
   return list
