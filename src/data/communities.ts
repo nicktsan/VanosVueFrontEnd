@@ -88,8 +88,8 @@ const communities = ref<Community[]>([
   },
   {
     id: '6',
-    name: 'Vancouver Smash Bros Melee Community',
-    description: 'Get together to play Super Smash Bros Melee',
+    name: 'Nick Gaming Community',
+    description: 'Nick Gaming Community description',
     category: 'Gaming',
     image: 'https://source.unsplash.com/random/800x400?education',
     creator: 'Nicholas Tsang',
