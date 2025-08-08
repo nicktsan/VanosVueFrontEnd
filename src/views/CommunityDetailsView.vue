@@ -100,6 +100,77 @@
           </div>
         </div>
       </div>
+
+      <!-- Posts section -->
+      <Divider class="my-8" />
+      <section>
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-xl font-semibold">Recent posts</h3>
+          <span v-if="community.posts?.length" class="text-sm text-gray-500"
+            >{{ community.posts.length }} total</span
+          >
+        </div>
+
+        <div v-if="community.posts?.length">
+          <Accordion :multiple="true">
+            <AccordionTab v-for="(post, idx) in community.posts" :key="idx">
+              <template #header>
+                <div class="flex items-start justify-between w-full gap-3">
+                  <div class="min-w-0">
+                    <div class="font-semibold truncate">{{ post.title }}</div>
+                    <div class="text-xs text-gray-500 truncate">by {{ post.authorName }}</div>
+                  </div>
+                  <div class="flex items-center gap-3 shrink-0 text-gray-600">
+                    <span class="inline-flex items-center gap-1 text-xs"
+                      ><i class="pi pi-thumbs-up" /> {{ post.likes }}</span
+                    >
+                    <span class="inline-flex items-center gap-1 text-xs"
+                      ><i class="pi pi-comments" /> {{ post.comments?.length ?? 0 }}</span
+                    >
+                  </div>
+                </div>
+              </template>
+
+              <p class="mb-4 text-gray-800 whitespace-pre-line">{{ post.content }}</p>
+
+              <div>
+                <h4 class="font-medium text-gray-700 mb-2">Comments</h4>
+                <Tree
+                  v-if="post.comments?.length"
+                  :value="commentTree(post.comments)"
+                  class="comment-tree"
+                >
+                  <template #default="{ node }">
+                    <div class="rounded-xl bg-gray-50 p-3 w-full">
+                      <div class="flex items-start gap-2">
+                        <i class="pi pi-user text-sm mt-1" />
+                        <div class="flex-1 min-w-0">
+                          <div class="text-sm font-medium text-gray-900">
+                            {{ node.data.authorName }}
+                          </div>
+                          <p class="text-sm text-gray-700 whitespace-pre-line mt-1">
+                            {{ node.data.content }}
+                          </p>
+                          <div class="mt-2 text-xs text-gray-500 flex items-center gap-2">
+                            <i class="pi pi-thumbs-up" />
+                            <span>{{ node.data.likes }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </Tree>
+                <p v-else class="text-sm text-gray-500 italic">No comments yet.</p>
+              </div>
+            </AccordionTab>
+          </Accordion>
+        </div>
+        <template v-else>
+          <div class="rounded-xl border border-dashed p-6 text-center text-gray-500">
+            No posts yet.
+          </div>
+        </template>
+      </section>
     </template>
   </Card>
 
@@ -144,7 +215,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Community } from '@/data/communities'
+import type { Community, Comment as CommentType } from '@/data/communities'
 
 /* PrimeVue components */
 import Card from 'primevue/card'
@@ -155,6 +226,11 @@ import Dialog from 'primevue/dialog'
 import Textarea from 'primevue/textarea'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
+import Accordion from 'primevue/accordion'
+import AccordionTab from 'primevue/accordiontab'
+import Divider from 'primevue/divider'
+import Tree from 'primevue/tree'
+import type { TreeNode } from 'primevue/treenode'
 
 /* Props */
 const props = defineProps<{ community: Community }>()
@@ -168,6 +244,15 @@ const emit = defineEmits<{
 const showDialog = ref(false)
 const requestMessage = ref('')
 const toast = useToast()
+
+/* Helpers */
+function commentTree(comments: CommentType[] = []): TreeNode[] {
+  return (comments ?? []).map((c, idx) => ({
+    key: `${idx}-${c.authorName}`,
+    data: c,
+    children: commentTree(c.comments ?? []),
+  }))
+}
 
 /* Handlers */
 function sendRequest() {
@@ -185,8 +270,6 @@ function sendRequest() {
     life: 4000,
   })
 }
-showDialog.value = false
-requestMessage.value = ''
 </script>
 
 <style scoped></style>
