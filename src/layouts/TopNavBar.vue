@@ -34,16 +34,10 @@ onMounted(async () => {
         <router-link to="/communities">
           <Button label="Browse Communities" size="large" class="p-button-outlined" />
         </router-link>
-        <router-link to="/events">
-          <Button label="Discover Events" size="large" class="p-button-outlined" />
-        </router-link>
       </slot>
     </div>
 
     <div class="nav-right">
-      <router-link to="/create-event">
-        <Button label="Create Event" size="large" class="p-button-outlined" />
-      </router-link>
       <router-link to="/create-venue">
         <Button label="Create Venue" size="large" class="p-button-outlined" />
       </router-link>
