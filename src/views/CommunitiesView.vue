@@ -35,6 +35,7 @@
         v-for="community in filteredCommunities"
         :key="community.id"
         class="overflow-hidden transition shadow-sm cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-primary hover:-translate-y-1"
+        @click="goToCommunity(community.id)"
       >
         <template #header>
           <img :src="community.image" :alt="community.name" class="w-full h-40 object-cover" />
@@ -83,9 +84,16 @@ import InputText from 'primevue/inputtext'
 import Card from 'primevue/card'
 import Tag from 'primevue/tag'
 import { categories, communities } from '@/data/communities'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const selectedCategories = ref<string[]>([])
 const search = ref('')
+
+function goToCommunity(id: string) {
+  router.push({ name: 'CommunityDetails', params: { id } })
+}
 
 const filteredCommunities = computed(() => {
   let list = communities

@@ -30,7 +30,8 @@ const communities: Community[] = [
   {
     id: '0',
     name: 'Vue.js Enthusiasts',
-    description: 'A global community for developers building with the Vue framework.',
+    description:
+      'A global community for developers building with the Vue framework. Looking for food venues for our next event',
     category: 'Tech',
     image: 'https://source.unsplash.com/random/800x400?code',
     creator: 'Evan You',
@@ -65,7 +66,8 @@ const communities: Community[] = [
   {
     id: '3',
     name: 'Indie Game Devs',
-    description: 'Collaborate, showcase, and get feedback on your indie game projects.',
+    description:
+      'Collaborate, showcase, and get feedback on your indie game projects. Looking to collaborate with gaming communities for beta testing.',
     category: 'Gaming',
     image: 'https://source.unsplash.com/random/800x400?gaming',
     creator: 'Mark Brown',
@@ -77,7 +79,8 @@ const communities: Community[] = [
   {
     id: '4',
     name: 'Plant-Based Cooking',
-    description: 'Recipes, tips, and challenges for healthy plant-based eating.',
+    description:
+      'Recipes, tips, and challenges for healthy plant-based eating. Looking for partnerships with farmers.',
     category: 'Food',
     image: 'https://source.unsplash.com/random/800x400?food',
     creator: 'Nisha Vora',
@@ -99,7 +102,8 @@ const communities: Community[] = [
   {
     id: '6',
     name: 'Nick Gaming Community',
-    description: 'Nick Gaming Community description',
+    description:
+      'Nick Gaming Community description. Looking to collaborate with other gaming communities for an upcoming event.',
     category: 'Gaming',
     image: 'https://source.unsplash.com/random/800x400?education',
     creator: 'Nicholas Tsang',
