@@ -1,13 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import MyProfileView from '@/views/MyProfileView.vue'
-import VenuesView from '@/views/VenuesView.vue'
-import CreateVenueView from '@/views/CreateVenueView.vue'
-import VenueDetailsView from '@/views/VenueDetailsView.vue'
-import { venues, hosts, reviews } from '@/data/venues'
 import CommunitiesView from '@/views/CommunitiesView.vue'
 import CommunityDetailsView from '@/views/CommunityDetailsView.vue'
 import { communities } from '@/data/communities'
+import CreateCommunityView from '@/views/CreateCommunityView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,33 +25,14 @@ const router = createRouter({
       component: MyProfileView,
     },
     {
-      path: '/venues',
-      name: 'venues',
-      component: VenuesView,
-    },
-    {
       path: '/communities',
       name: 'communities',
       component: CommunitiesView,
     },
     {
-      path: '/create-venue',
-      name: 'create-venue',
-      component: CreateVenueView,
-    },
-    {
-      path: '/venuedetails/:id',
-      name: 'VenueDetails',
-      component: VenueDetailsView,
-      props: (route) => {
-        const id = route.params.id as string
-
-        return {
-          venue: venues.find((v) => v.id === id)!,
-          host: hosts[id],
-          reviews: reviews.filter((r) => r.id.startsWith(id)),
-        }
-      },
+      path: '/create-community',
+      name: 'create-community',
+      component: CreateCommunityView,
     },
     {
       path: '/communitydetails/:id',

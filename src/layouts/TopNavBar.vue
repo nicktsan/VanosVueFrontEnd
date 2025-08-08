@@ -38,8 +38,8 @@ onMounted(async () => {
     </div>
 
     <div class="nav-right">
-      <router-link to="/create-venue">
-        <Button label="Create Venue" size="large" class="p-button-outlined" />
+      <router-link to="/create-community">
+        <Button label="Create Community" size="large" class="p-button-outlined" />
       </router-link>
       <template v-if="session">
         <AccountMenuBar :session="session" />

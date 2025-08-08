@@ -18,7 +18,7 @@ interface Community {
   name: string
   description: string
   category: string
-  image: string
+  image?: string
   creator: string
   members: number
   lookingFor: string[]
