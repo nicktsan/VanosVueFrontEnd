@@ -1,4 +1,5 @@
 <template>
+  <Toast position="top-right" />
   <!-- Community Details Card -->
   <Card class="w-full max-w-3xl mx-auto shadow-2xl rounded-2xl overflow-hidden">
     <!-- Cover image -->
@@ -152,6 +153,8 @@ import Chip from 'primevue/chip'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import Textarea from 'primevue/textarea'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
 
 /* Props */
 const props = defineProps<{ community: Community }>()
@@ -164,6 +167,7 @@ const emit = defineEmits<{
 /* Local state */
 const showDialog = ref(false)
 const requestMessage = ref('')
+const toast = useToast()
 
 /* Handlers */
 function sendRequest() {
@@ -173,7 +177,16 @@ function sendRequest() {
   })
   showDialog.value = false
   requestMessage.value = ''
+
+  toast.add({
+    severity: 'success',
+    summary: 'Request sent',
+    detail: `Your collaboration request to ${props.community.name} has been sent.`,
+    life: 4000,
+  })
 }
+showDialog.value = false
+requestMessage.value = ''
 </script>
 
 <style scoped></style>
