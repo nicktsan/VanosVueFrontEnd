@@ -16,7 +16,7 @@
             id="name"
             v-model.trim="form.name"
             :class="{ 'p-invalid': submitted && !form.name }"
-            placeholder="Your community name"
+            placeholder="e.g. Vue.js Enthusiasts"
             class="w-full"
           />
           <small v-if="submitted && !form.name" class="text-red-500">Name is required.</small>
@@ -57,34 +57,42 @@
           >
         </div>
 
-        <!-- Image URL -->
+        <!-- Image upload (device) -->
         <div>
-          <label for="image" class="block text-sm font-medium mb-1">Image URL</label>
-          <InputText
-            id="image"
-            v-model.trim="form.image"
-            :class="{ 'p-invalid': submitted && !validImage }"
-            placeholder="https://..."
-            class="w-full"
-          />
-          <small v-if="submitted && !form.image" class="text-red-500">Image URL is required.</small>
-          <small v-else-if="submitted && form.image && !validImage" class="text-red-500"
-            >Enter a valid URL (http/https).</small
+          <label class="block text-sm font-medium mb-1">Image</label>
+
+          <!-- Dropzone -->
+          <div
+            class="rounded-xl border border-dashed p-4 text-center hover:bg-gray-50 transition cursor-pointer"
+            @dragover.prevent
+            @drop.prevent="onDrop"
+            @click="fileInput?.click()"
           >
+            <p class="text-sm text-gray-600">
+              Drag & drop an image here, or <span class="text-blue-600 underline">browse</span>
+            </p>
+            <p class="text-xs text-gray-500 mt-1">
+              PNG/JPG up to {{ (MAX_FILE_SIZE / 1024 / 1024).toFixed(0) }}MB
+            </p>
+            <input
+              ref="fileInput"
+              type="file"
+              class="hidden"
+              accept="image/*"
+              @change="onFileChange"
+            />
+          </div>
+
+          <small v-if="submitted && !imageFile" class="text-red-500 mt-2 block"
+            >Image is required.</small
+          >
+          <small v-if="fileError" class="text-red-500 mt-2 block">{{ fileError }}</small>
 
           <!-- Live preview -->
-          <div v-if="showPreview && form.image && validImage" class="mt-3">
+          <div v-if="imagePreviewUrl" class="mt-3">
             <div class="rounded-xl overflow-hidden border">
-              <img
-                :src="form.image"
-                alt="Image preview"
-                class="w-full h-48 object-cover"
-                @error="onImageError"
-              />
+              <img :src="imagePreviewUrl" alt="Image preview" class="w-full h-48 object-cover" />
             </div>
-            <small v-if="imageErrored" class="text-amber-600"
-              >We couldn't load this image. The URL may be invalid or blocked.</small
-            >
           </div>
         </div>
 
@@ -121,7 +129,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed, watch } from 'vue'
+import { reactive, ref, computed, watch, onBeforeUnmount } from 'vue'
 import Card from 'primevue/card'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
@@ -134,9 +142,7 @@ import { categories as defaultCategories } from '@/data/communities'
 /** Props */
 const props = withDefaults(
   defineProps<{
-    /** Provide category options; defaults to categories from data file */
     categories?: CategoryOption[]
-    /** Show live image preview */
     showPreview?: boolean
   }>(),
   {
@@ -147,62 +153,92 @@ const props = withDefaults(
 
 /** Emits */
 const emit = defineEmits<{
-  /** Fired when user submits a valid form */
+  /** Now emits the selected File instead of URL */
   (
     e: 'create',
     payload: {
       name: string
       description: string
       category: string
-      image: string
       location: string
+      imageFile: File
     },
   ): void
-  /** Fired when user clicks cancel */
   (e: 'cancel'): void
 }>()
+
+/** Constants */
+const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
 /** Local state */
 const form = reactive({
   name: '',
   description: '',
   category: '',
-  image: '',
   location: '',
 })
 const submitted = ref(false)
-const imageErrored = ref(false)
+const fileInput = ref<HTMLInputElement | null>(null)
+const imageFile = ref<File | null>(null)
+const imagePreviewUrl = ref<string>('')
+const fileError = ref<string>('')
 
 /** Derived */
 const categoryOptions = computed(() => props.categories)
-const validUrl = (url: string) => /^(https?:)\/\//i.test(url)
-const validImage = computed(() => !!form.image && validUrl(form.image) && !imageErrored.value)
 const isValid = computed(
   () =>
-    !!form.name &&
-    !!form.description &&
-    !!form.category &&
-    !!form.location &&
-    !!form.image &&
-    validUrl(form.image) &&
-    !imageErrored.value,
+    !!form.name && !!form.description && !!form.category && !!form.location && !!imageFile.value,
 )
 
-watch(
-  () => form.image,
-  () => {
-    imageErrored.value = false
-  },
-)
+watch(imageFile, (newFile, oldFile) => {
+  // Clean up old preview URL
+  if (oldFile && imagePreviewUrl.value) URL.revokeObjectURL(imagePreviewUrl.value)
+  imagePreviewUrl.value = newFile ? URL.createObjectURL(newFile) : ''
+  fileError.value = ''
+})
+
+onBeforeUnmount(() => {
+  if (imagePreviewUrl.value) URL.revokeObjectURL(imagePreviewUrl.value)
+})
 
 /** Handlers */
-function onImageError() {
-  imageErrored.value = true
+function validateFile(file: File): string | null {
+  if (!file.type.startsWith('image/')) return 'File must be an image.'
+  if (file.size > MAX_FILE_SIZE)
+    return `Image must be under ${(MAX_FILE_SIZE / 1024 / 1024).toFixed(0)}MB.`
+  return null
 }
+
+function setFile(file: File) {
+  const err = validateFile(file)
+  if (err) {
+    fileError.value = err
+    imageFile.value = null
+    return
+  }
+  imageFile.value = file
+}
+
+function onFileChange(e: Event) {
+  const files = (e.target as HTMLInputElement).files
+  if (files && files[0]) setFile(files[0])
+}
+
+function onDrop(e: DragEvent) {
+  const files = e.dataTransfer?.files
+  if (files && files[0]) setFile(files[0])
+}
+
 function onSubmit() {
   submitted.value = true
-  if (!isValid.value) return
-  emit('create', { ...form })
+  if (!isValid.value || !imageFile.value) return
+  emit('create', {
+    name: form.name,
+    description: form.description,
+    category: form.category,
+    location: form.location,
+    imageFile: imageFile.value,
+  })
 }
 function onCancel() {
   emit('cancel')
