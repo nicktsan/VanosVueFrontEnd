@@ -3,7 +3,7 @@
     <template #title>
       <div class="flex items-center justify-between gap-4">
         <h2 class="text-2xl font-bold">Create a Community</h2>
-        <span class="text-sm text-gray-500">All fields are required</span>
+        <span class="text-sm text-gray-500">All fields marked with * are required</span>
       </div>
     </template>
 
@@ -11,7 +11,7 @@
       <div class="grid grid-cols-1 gap-6">
         <!-- Name -->
         <div>
-          <label for="name" class="block text-sm font-medium mb-1">Name</label>
+          <label for="name" class="block text-sm font-medium mb-1">Name*</label>
           <InputText
             id="name"
             v-model.trim="form.name"
@@ -24,7 +24,7 @@
 
         <!-- Description -->
         <div>
-          <label for="description" class="block text-sm font-medium mb-1">Description</label>
+          <label for="description" class="block text-sm font-medium mb-1">Description*</label>
           <Textarea
             id="description"
             v-model.trim="form.description"
@@ -41,7 +41,7 @@
 
         <!-- Category -->
         <div>
-          <label for="category" class="block text-sm font-medium mb-1">Category</label>
+          <label for="category" class="block text-sm font-medium mb-1">Category*</label>
           <Dropdown
             input-id="category"
             v-model="form.category"
@@ -82,10 +82,6 @@
               @change="onFileChange"
             />
           </div>
-
-          <small v-if="submitted && !imageFile" class="text-red-500 mt-2 block"
-            >Image is required.</small
-          >
           <small v-if="fileError" class="text-red-500 mt-2 block">{{ fileError }}</small>
 
           <!-- Live preview -->
@@ -98,7 +94,7 @@
 
         <!-- Location -->
         <div>
-          <label for="location" class="block text-sm font-medium mb-1">Location</label>
+          <label for="location" class="block text-sm font-medium mb-1">Location*</label>
           <InputText
             id="location"
             v-model.trim="form.location"
@@ -161,7 +157,7 @@ const emit = defineEmits<{
       description: string
       category: string
       location: string
-      imageFile: File
+      imageFile?: File | null
     },
   ): void
   (e: 'cancel'): void
@@ -186,8 +182,7 @@ const fileError = ref<string>('')
 /** Derived */
 const categoryOptions = computed(() => props.categories)
 const isValid = computed(
-  () =>
-    !!form.name && !!form.description && !!form.category && !!form.location && !!imageFile.value,
+  () => !!form.name && !!form.description && !!form.category && !!form.location,
 )
 
 watch(imageFile, (newFile, oldFile) => {
@@ -231,13 +226,13 @@ function onDrop(e: DragEvent) {
 
 function onSubmit() {
   submitted.value = true
-  if (!isValid.value || !imageFile.value) return
+  if (!isValid.value) return
   emit('create', {
     name: form.name,
     description: form.description,
     category: form.category,
     location: form.location,
-    imageFile: imageFile.value,
+    imageFile: imageFile.value ?? null,
   })
 }
 function onCancel() {
