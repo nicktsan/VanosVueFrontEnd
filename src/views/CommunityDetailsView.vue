@@ -234,7 +234,6 @@ import type { TreeNode } from 'primevue/treenode'
 
 /* Props */
 const props = defineProps<{ community: Community }>()
-
 /* Emits */
 const emit = defineEmits<{
   (e: 'request-collaboration', payload: { communityId: string | number; message: string }): void
