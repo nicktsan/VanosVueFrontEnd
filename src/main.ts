@@ -7,8 +7,10 @@ import App from './App.vue'
 import router from './router'
 import vue3GoogleLogin from 'vue3-google-login'
 import { ENV } from '@/../env.local'
+import ToastService from 'primevue/toastservice'
 
 const app = createApp(App)
+app.use(ToastService)
 app.use(PrimeVue, {
   theme: {
     preset: Aura,
