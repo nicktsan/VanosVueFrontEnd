@@ -2,31 +2,67 @@
 <template>
   <section class="mx-auto max-w-6xl p-4 space-y-6">
     <!-- Filters -->
-    <div class="grid gap-3 sm:grid-cols-3">
-      <label class="flex flex-col gap-1">
-        <span class="text-sm font-medium">Category</span>
-        <select v-model="selectedCategory" class="rounded-lg border px-3 py-2">
-          <option value="">All categories</option>
-          <option v-for="cat in categories" :key="cat.name" :value="cat.name">
-            {{ cat.name }}
-          </option>
-        </select>
-      </label>
+    <div class="grid gap-4 sm:grid-cols-3">
+      <!-- Category checkboxes -->
+      <fieldset class="flex flex-col gap-2">
+        <legend class="text-sm font-medium">Categories</legend>
+        <div class="flex items-center gap-2 text-sm">
+          <button type="button" class="underline" @click="selectedCategories = []">Clear</button>
+          <span class="text-gray-500">({{ selectedCategories.length || 'All' }})</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-1 gap-1 max-h-44 overflow-auto pr-1">
+          <label v-for="cat in categories" :key="cat.name" class="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              :value="cat.name"
+              v-model="selectedCategories"
+              class="h-4 w-4 rounded border"
+            />
+            <span>{{ cat.name }}</span>
+          </label>
+        </div>
+      </fieldset>
 
-      <label class="flex flex-col gap-1">
-        <span class="text-sm font-medium">Subcategory</span>
-        <select
-          v-model="selectedSubcategory"
-          :disabled="subcategoriesForSelected.length === 0"
-          class="rounded-lg border px-3 py-2 disabled:bg-gray-100 disabled:text-gray-400"
+      <!-- Subcategory checkboxes -->
+      <fieldset class="flex flex-col gap-2">
+        <legend class="text-sm font-medium">Subcategories</legend>
+        <div class="flex items-center gap-2 text-sm">
+          <button
+            type="button"
+            class="underline disabled:no-underline disabled:text-gray-400"
+            :disabled="subcategoriesForSelected.length === 0"
+            @click="selectedSubcategories = []"
+          >
+            Clear
+          </button>
+          <span class="text-gray-500">
+            ({{ subcategoriesForSelected.length ? selectedSubcategories.length || 'All' : '—' }})
+          </span>
+        </div>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-1 gap-1 max-h-44 overflow-auto pr-1"
+          :class="{ 'opacity-50 pointer-events-none': subcategoriesForSelected.length === 0 }"
         >
-          <option value="">All subcategories</option>
-          <option v-for="sub in subcategoriesForSelected" :key="sub" :value="sub">
-            {{ sub }}
-          </option>
-        </select>
-      </label>
+          <label
+            v-for="sub in subcategoriesForSelected"
+            :key="sub"
+            class="flex items-center gap-2 text-sm"
+          >
+            <input
+              type="checkbox"
+              :value="sub"
+              v-model="selectedSubcategories"
+              class="h-4 w-4 rounded border"
+            />
+            <span>{{ sub }}</span>
+          </label>
+        </div>
+        <p v-if="selectedCategories.length === 0" class="text-xs text-gray-500">
+          Pick one or more categories to see subcategories.
+        </p>
+      </fieldset>
 
+      <!-- Text search -->
       <label class="flex flex-col gap-1">
         <span class="text-sm font-medium">Search (name/desc)</span>
         <input
@@ -53,10 +89,8 @@
         <div class="p-4 space-y-2">
           <h3 class="text-lg font-semibold">{{ c.name }}</h3>
 
-          <!-- Location / Members -->
           <p class="text-xs text-gray-500">{{ c.location }} · {{ c.members }} members</p>
 
-          <!-- NEW: All categories as pills -->
           <div v-if="c.categories?.length" class="flex flex-wrap gap-1">
             <span
               v-for="cat in c.categories"
@@ -93,21 +127,36 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-// Adjust this import to your project structure:
 import { categories, communities, type Community, type CategoryOption } from '@/data/communities'
 
-const selectedCategory = ref<string>('')
-const selectedSubcategory = ref<string>('')
+/**
+ * Multi-select state
+ */
+const selectedCategories = ref<string[]>([])
+const selectedSubcategories = ref<string[]>([])
 const q = ref<string>('')
 
+/**
+ * Subcategories = union of selected categories' subcategories (deduped)
+ * If no category selected, no subcategories are shown.
+ */
 const subcategoriesForSelected = computed<string[]>(() => {
-  const cat = categories.find((c: CategoryOption) => c.name === selectedCategory.value)
-  return cat ? cat.subCategories : []
+  if (selectedCategories.value.length === 0) return []
+  const set = new Set<string>()
+  for (const catName of selectedCategories.value) {
+    const cat = categories.find((c: CategoryOption) => c.name === catName)
+    cat?.subCategories.forEach((s) => set.add(s))
+  }
+  return Array.from(set).sort((a, b) => a.localeCompare(b))
 })
 
-// Clear subcategory when category changes to avoid stale selection
-watch(selectedCategory, () => {
-  selectedSubcategory.value = ''
+/**
+ * Keep subcategory selection valid as categories change
+ */
+watch(selectedCategories, () => {
+  selectedSubcategories.value = selectedSubcategories.value.filter((s) =>
+    subcategoriesForSelected.value.includes(s),
+  )
 })
 
 /**
@@ -123,26 +172,27 @@ const matchesToken = (hay: string | string[] | undefined, token: string): boolea
 }
 
 const filtered = computed<Community[]>(() => {
-  const list = [...communities]
-
-  return list.filter((c) => {
+  const text = ci(q.value)
+  return communities.filter((c) => {
     // Text search (name/description)
-    const textOk =
-      !q.value || ci(c.name).includes(ci(q.value)) || ci(c.description).includes(ci(q.value))
+    const textOk = !text || ci(c.name).includes(text) || ci(c.description).includes(text)
 
-    // Category filter (now checks c.categories array)
+    // Category filter: match if ANY selected category matches categories or lookingFor
+    const cats = selectedCategories.value
     const categoryOk =
-      !selectedCategory.value ||
-      matchesToken(c.categories, selectedCategory.value) ||
-      matchesToken(c.lookingFor, selectedCategory.value)
+      cats.length === 0 ||
+      cats.some((cat) => matchesToken(c.categories, cat) || matchesToken(c.lookingFor, cat))
 
-    // Subcategory filter (also against categories array / tags / description)
-    const subcat = selectedSubcategory.value
+    // Subcategory filter: match if ANY selected subcategory matches categories/lookingFor/description
+    const subs = selectedSubcategories.value
     const subcategoryOk =
-      !subcat ||
-      matchesToken(c.categories, subcat) ||
-      matchesToken(c.lookingFor, subcat) ||
-      ci(c.description).includes(ci(subcat))
+      subs.length === 0 ||
+      subs.some(
+        (sub) =>
+          matchesToken(c.categories, sub) ||
+          matchesToken(c.lookingFor, sub) ||
+          ci(c.description).includes(ci(sub)),
+      )
 
     return textOk && categoryOk && subcategoryOk
   })
