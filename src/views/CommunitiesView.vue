@@ -7,10 +7,12 @@
       <fieldset class="flex flex-col gap-2">
         <legend class="text-sm font-medium">Categories</legend>
         <div class="flex items-center gap-2 text-sm">
-          <button type="button" class="underline" @click="selectedCategories = []">Clear</button>
+          <button type="button" class="underline" @click="toggleAllCategories">
+            {{ isAllCategoriesSelected ? 'Clear all' : 'Select all' }}
+          </button>
           <span class="text-gray-500">({{ selectedCategories.length || 'All' }})</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-1 gap-1 max-h-44 overflow-auto pr-1">
+        <div class="grid grid-cols-1 gap-1 max-h-44 overflow-auto pr-1">
           <label v-for="cat in categories" :key="cat.name" class="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
@@ -31,16 +33,16 @@
             type="button"
             class="underline disabled:no-underline disabled:text-gray-400"
             :disabled="subcategoriesForSelected.length === 0"
-            @click="selectedSubcategories = []"
+            @click="toggleAllSubcategories"
           >
-            Clear
+            {{ isAllSubcategoriesSelected ? 'Clear all' : 'Select all' }}
           </button>
           <span class="text-gray-500">
             ({{ subcategoriesForSelected.length ? selectedSubcategories.length || 'All' : '—' }})
           </span>
         </div>
         <div
-          class="grid grid-cols-1 sm:grid-cols-1 gap-1 max-h-44 overflow-auto pr-1"
+          class="grid grid-cols-1 gap-1 max-h-44 overflow-auto pr-1"
           :class="{ 'opacity-50 pointer-events-none': subcategoriesForSelected.length === 0 }"
         >
           <label
@@ -76,7 +78,8 @@
 
     <!-- Results -->
     <p class="text-sm text-gray-600">
-      Showing {{ filtered.length }} community<span v-if="filtered.length !== 1">ies</span>
+      Showing {{ filtered.length }} communit<span v-if="filtered.length > 1">ies</span
+      ><span v-else>y</span>
     </p>
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -89,8 +92,10 @@
         <div class="p-4 space-y-2">
           <h3 class="text-lg font-semibold">{{ c.name }}</h3>
 
+          <!-- Location / Members -->
           <p class="text-xs text-gray-500">{{ c.location }} · {{ c.members }} members</p>
 
+          <!-- All categories as pills -->
           <div v-if="c.categories?.length" class="flex flex-wrap gap-1">
             <span
               v-for="cat in c.categories"
@@ -127,6 +132,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+// Adjust this import to your project structure:
 import { categories, communities, type Community, type CategoryOption } from '@/data/communities'
 
 /**
@@ -137,9 +143,20 @@ const selectedSubcategories = ref<string[]>([])
 const q = ref<string>('')
 
 /**
- * Subcategories = union of selected categories' subcategories (deduped)
- * If no category selected, no subcategories are shown.
+ * Select-all helpers
  */
+const allCategoryNames = computed<string[]>(() => categories.map((c) => c.name))
+
+const isAllCategoriesSelected = computed<boolean>(
+  () =>
+    selectedCategories.value.length > 0 &&
+    selectedCategories.value.length === allCategoryNames.value.length,
+)
+
+const toggleAllCategories = () => {
+  selectedCategories.value = isAllCategoriesSelected.value ? [] : [...allCategoryNames.value]
+}
+
 const subcategoriesForSelected = computed<string[]>(() => {
   if (selectedCategories.value.length === 0) return []
   const set = new Set<string>()
@@ -149,6 +166,18 @@ const subcategoriesForSelected = computed<string[]>(() => {
   }
   return Array.from(set).sort((a, b) => a.localeCompare(b))
 })
+
+const isAllSubcategoriesSelected = computed<boolean>(
+  () =>
+    subcategoriesForSelected.value.length > 0 &&
+    selectedSubcategories.value.length === subcategoriesForSelected.value.length,
+)
+
+const toggleAllSubcategories = () => {
+  selectedSubcategories.value = isAllSubcategoriesSelected.value
+    ? []
+    : [...subcategoriesForSelected.value]
+}
 
 /**
  * Keep subcategory selection valid as categories change
@@ -167,8 +196,8 @@ const matchesToken = (hay: string | string[] | undefined, token: string): boolea
   if (!token) return true
   if (!hay) return false
   const t = ci(token)
-  if (Array.isArray(hay)) return hay.some((h) => ci(h) === t || ci(h).includes(t))
-  return ci(hay) === t || ci(hay).includes(t)
+  if (Array.isArray(hay)) return hay.some((h) => ci(h) === t)
+  return ci(hay) === t
 }
 
 const filtered = computed<Community[]>(() => {
