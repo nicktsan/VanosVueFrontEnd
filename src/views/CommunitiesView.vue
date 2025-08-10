@@ -83,10 +83,12 @@
     </p>
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <article
+      <!-- Make the whole card a link -->
+      <RouterLink
         v-for="c in filtered"
         :key="c.id"
-        class="rounded-2xl border shadow-sm overflow-hidden"
+        :to="`/communitydetails/${c.id}`"
+        class="rounded-2xl border shadow-sm overflow-hidden block hover:shadow-md transition-shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
       >
         <img v-if="c.image" :src="c.image" :alt="c.name" class="h-40 w-full object-cover" />
         <div class="p-4 space-y-2">
@@ -121,7 +123,7 @@
             </span>
           </div>
         </div>
-      </article>
+      </RouterLink>
     </div>
 
     <div v-if="filtered.length === 0" class="text-center text-sm text-gray-600 py-12">
@@ -132,6 +134,8 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+// If you want explicit typing/auto-complete for RouterLink, uncomment the next line:
+// import { RouterLink } from 'vue-router'
 // Adjust this import to your project structure:
 import { categories, communities, type Community, type CategoryOption } from '@/data/communities'
 
@@ -157,6 +161,9 @@ const toggleAllCategories = () => {
   selectedCategories.value = isAllCategoriesSelected.value ? [] : [...allCategoryNames.value]
 }
 
+/**
+ * Subcategories = union of subcategories for selected categories (deduped + sorted)
+ */
 const subcategoriesForSelected = computed<string[]>(() => {
   if (selectedCategories.value.length === 0) return []
   const set = new Set<string>()
@@ -190,6 +197,8 @@ watch(selectedCategories, () => {
 
 /**
  * Matching helpers (case-insensitive)
+ * - Exact match for tag arrays (categories/lookingFor)
+ * - Substring for free-text search on name/description
  */
 const ci = (s: string) => s.toLowerCase()
 const matchesToken = (hay: string | string[] | undefined, token: string): boolean => {
@@ -203,16 +212,17 @@ const matchesToken = (hay: string | string[] | undefined, token: string): boolea
 const filtered = computed<Community[]>(() => {
   const text = ci(q.value)
   return communities.filter((c) => {
-    // Text search (name/description)
+    // Text search (name/description) -> substring
     const textOk = !text || ci(c.name).includes(text) || ci(c.description).includes(text)
 
-    // Category filter: match if ANY selected category matches categories or lookingFor
+    // Category filter: ANY selected category matches categories or lookingFor (exact tag match)
     const cats = selectedCategories.value
     const categoryOk =
       cats.length === 0 ||
       cats.some((cat) => matchesToken(c.categories, cat) || matchesToken(c.lookingFor, cat))
 
-    // Subcategory filter: match if ANY selected subcategory matches categories/lookingFor/description
+    // Subcategory filter: ANY selected subcategory matches categories/lookingFor (exact tag)
+    // Optionally also allow substring in description for a looser UX.
     const subs = selectedSubcategories.value
     const subcategoryOk =
       subs.length === 0 ||
