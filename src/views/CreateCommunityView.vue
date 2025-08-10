@@ -1,243 +1,236 @@
+<!-- CreateCommunityView.vue -->
 <template>
-  <Card class="w-full max-w-3xl mx-auto shadow-2xl rounded-2xl overflow-hidden">
-    <template #title>
-      <div class="flex items-center justify-between gap-4">
-        <h2 class="text-2xl font-bold">Create a Community</h2>
-        <span class="text-sm text-gray-500">All fields marked with * are required</span>
-      </div>
-    </template>
+  <section class="mx-auto max-w-3xl p-4 space-y-6">
+    <h1 class="text-2xl font-semibold">Create a Community</h1>
 
-    <template #content>
-      <div class="grid grid-cols-1 gap-6">
-        <!-- Name -->
-        <div>
-          <label for="name" class="block text-sm font-medium mb-1">Name*</label>
-          <InputText
-            id="name"
-            v-model.trim="form.name"
-            :class="{ 'p-invalid': submitted && !form.name }"
-            placeholder="e.g. Vue.js Enthusiasts"
-            class="w-full"
+    <form class="space-y-6" @submit.prevent="handleSubmit">
+      <!-- Basic fields -->
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-medium">Name</span>
+          <input
+            v-model.trim="newCommunity.name"
+            type="text"
+            class="rounded-lg border px-3 py-2"
+            required
           />
-          <small v-if="submitted && !form.name" class="text-red-500">Name is required.</small>
-        </div>
+        </label>
 
-        <!-- Description -->
-        <div>
-          <label for="description" class="block text-sm font-medium mb-1">Description*</label>
-          <Textarea
-            id="description"
-            v-model.trim="form.description"
+        <label class="sm:col-span-2 flex flex-col gap-1">
+          <span class="text-sm font-medium">Location</span>
+          <input
+            v-model.trim="newCommunity.location"
+            type="text"
+            class="rounded-lg border px-3 py-2"
+            required
+          />
+        </label>
+
+        <label class="sm:col-span-2 flex flex-col gap-1">
+          <span class="text-sm font-medium">Description</span>
+          <textarea
+            v-model.trim="newCommunity.description"
             rows="4"
-            auto-resize
-            :class="{ 'p-invalid': submitted && !form.description }"
-            placeholder="What is this community about?"
-            class="w-full"
+            class="rounded-lg border px-3 py-2"
+            required
           />
-          <small v-if="submitted && !form.description" class="text-red-500"
-            >Description is required.</small
-          >
-        </div>
+        </label>
+      </div>
 
-        <!-- Category -->
-        <div>
-          <label for="category" class="block text-sm font-medium mb-1">Category*</label>
-          <Dropdown
-            input-id="category"
-            v-model="form.category"
-            :options="categoryOptions"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="Select a category"
-            class="w-full"
-            :class="{ 'p-invalid': submitted && !form.category }"
-          />
-          <small v-if="submitted && !form.category" class="text-red-500"
-            >Category is required.</small
-          >
-        </div>
+      <!-- Category selection -->
+      <div class="grid gap-6 sm:grid-cols-2">
+        <!-- Parent Categories -->
+        <fieldset class="flex flex-col gap-2">
+          <legend class="text-sm font-medium">Categories</legend>
+          <div class="flex items-center gap-3 text-sm">
+            <button type="button" class="underline" @click="toggleAllCategories">
+              {{ isAllCategoriesSelected ? 'Clear all' : 'Select all' }}
+            </button>
+            <span class="text-gray-500">({{ selectedCategories.length || 'All' }})</span>
+          </div>
 
-        <!-- Image upload (device) -->
-        <div>
-          <label class="block text-sm font-medium mb-1">Image</label>
+          <div class="grid gap-1 max-h-56 overflow-auto pr-1">
+            <label
+              v-for="cat in categories"
+              :key="cat.name"
+              class="flex items-center gap-2 text-sm"
+            >
+              <input
+                type="checkbox"
+                :value="cat.name"
+                v-model="selectedCategories"
+                class="h-4 w-4 rounded border"
+              />
+              <span>{{ cat.name }}</span>
+            </label>
+          </div>
+        </fieldset>
 
-          <!-- Dropzone -->
+        <!-- Subcategories (unions the selected parents' subcategories) -->
+        <fieldset class="flex flex-col gap-2">
+          <legend class="text-sm font-medium">Subcategories</legend>
+          <div class="flex items-center gap-3 text-sm">
+            <button
+              type="button"
+              class="underline disabled:no-underline disabled:text-gray-400"
+              :disabled="subcategoriesForSelected.length === 0"
+              @click="toggleAllSubcategories"
+            >
+              {{ isAllSubcategoriesSelected ? 'Clear all' : 'Select all' }}
+            </button>
+            <span class="text-gray-500">
+              ({{ subcategoriesForSelected.length ? selectedSubcategories.length || 'All' : '—' }})
+            </span>
+          </div>
+
           <div
-            class="rounded-xl border border-dashed p-4 text-center hover:bg-gray-50 transition cursor-pointer"
-            @dragover.prevent
-            @drop.prevent="onDrop"
-            @click="fileInput?.click()"
+            class="grid gap-1 max-h-56 overflow-auto pr-1"
+            :class="{ 'opacity-50 pointer-events-none': subcategoriesForSelected.length === 0 }"
           >
-            <p class="text-sm text-gray-600">
-              Drag & drop an image here, or <span class="text-blue-600 underline">browse</span>
-            </p>
-            <p class="text-xs text-gray-500 mt-1">
-              PNG/JPG up to {{ (MAX_FILE_SIZE / 1024 / 1024).toFixed(0) }}MB
-            </p>
-            <input
-              ref="fileInput"
-              type="file"
-              class="hidden"
-              accept="image/*"
-              @change="onFileChange"
-            />
+            <label
+              v-for="sub in subcategoriesForSelected"
+              :key="sub"
+              class="flex items-center gap-2 text-sm"
+            >
+              <input
+                type="checkbox"
+                :value="sub"
+                v-model="selectedSubcategories"
+                class="h-4 w-4 rounded border"
+              />
+              <span>{{ sub }}</span>
+            </label>
           </div>
-          <small v-if="fileError" class="text-red-500 mt-2 block">{{ fileError }}</small>
 
-          <!-- Live preview -->
-          <div v-if="imagePreviewUrl" class="mt-3">
-            <div class="rounded-xl overflow-hidden border">
-              <img :src="imagePreviewUrl" alt="Image preview" class="w-full h-48 object-cover" />
-            </div>
-          </div>
-        </div>
+          <p v-if="selectedCategories.length === 0" class="text-xs text-gray-500">
+            Pick one or more categories to see subcategories.
+          </p>
+        </fieldset>
+      </div>
 
-        <!-- Location -->
-        <div>
-          <label for="location" class="block text-sm font-medium mb-1">Location*</label>
-          <InputText
-            id="location"
-            v-model.trim="form.location"
-            :class="{ 'p-invalid': submitted && !form.location }"
-            placeholder="e.g. Vancouver, BC, Canada"
-            class="w-full"
-          />
-          <small v-if="submitted && !form.location" class="text-red-500"
-            >Location is required.</small
+      <!-- Preview of selected tags -->
+      <div class="space-y-2">
+        <p class="text-sm font-medium">Selected tags (will be saved to the community):</p>
+        <div class="flex flex-wrap gap-2">
+          <span
+            v-for="tag in tagsToSave"
+            :key="tag"
+            class="rounded-full border px-2 py-0.5 text-xs"
           >
-        </div>
-
-        <Divider />
-
-        <!-- Actions -->
-        <div class="flex justify-end gap-2">
-          <Button label="Cancel" severity="secondary" class="p-button-text" @click="onCancel" />
-          <Button
-            :disabled="!isValid"
-            label="Create Community"
-            icon="pi pi-check"
-            @click="onSubmit"
-          />
+            {{ tag }}
+          </span>
+          <span v-if="tagsToSave.length === 0" class="text-sm text-gray-500">None selected</span>
         </div>
       </div>
-    </template>
-  </Card>
+
+      <!-- Submit -->
+      <div class="flex items-center gap-3">
+        <button type="submit" class="rounded-lg bg-black text-white px-4 py-2">Create</button>
+        <span v-if="error" class="text-sm text-red-600">{{ error }}</span>
+        <span v-if="success" class="text-sm text-green-600">Community created!</span>
+      </div>
+    </form>
+  </section>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed, watch, onBeforeUnmount } from 'vue'
-import Card from 'primevue/card'
-import InputText from 'primevue/inputtext'
-import Textarea from 'primevue/textarea'
-import Dropdown from 'primevue/dropdown'
-import Divider from 'primevue/divider'
-import Button from 'primevue/button'
-import type { CategoryOption } from '@/data/communities'
-import { categories as defaultCategories } from '@/data/communities'
+import { ref, computed, watch } from 'vue'
+import { categories, type CategoryOption } from '@/data/communities' // uses the categories const
 
-/** Props */
-const props = withDefaults(
-  defineProps<{
-    categories?: CategoryOption[]
-    showPreview?: boolean
-  }>(),
-  {
-    categories: () => defaultCategories,
-    showPreview: true,
-  },
-)
-
-/** Emits */
-const emit = defineEmits<{
-  /** Now emits the selected File instead of URL */
-  (
-    e: 'create',
-    payload: {
-      name: string
-      description: string
-      category: string
-      location: string
-      imageFile?: File | null
-    },
-  ): void
-  (e: 'cancel'): void
-}>()
-
-/** Constants */
-const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
-
-/** Local state */
-const form = reactive({
+// ----- Model for the new community (adapt to your actual create flow) -----
+const newCommunity = ref({
   name: '',
   description: '',
-  category: '',
   location: '',
+  categories: [] as string[], // will be saved as union of selected categories + subcategories
 })
-const submitted = ref(false)
-const fileInput = ref<HTMLInputElement | null>(null)
-const imageFile = ref<File | null>(null)
-const imagePreviewUrl = ref<string>('')
-const fileError = ref<string>('')
 
-/** Derived */
-const categoryOptions = computed(() => props.categories)
-const isValid = computed(
-  () => !!form.name && !!form.description && !!form.category && !!form.location,
+// ----- Multi-select state -----
+const selectedCategories = ref<string[]>([])
+const selectedSubcategories = ref<string[]>([])
+
+// ----- Select-all helpers -----
+const allCategoryNames = computed<string[]>(() => categories.map((c) => c.name))
+
+const isAllCategoriesSelected = computed<boolean>(
+  () =>
+    selectedCategories.value.length > 0 &&
+    selectedCategories.value.length === allCategoryNames.value.length,
 )
 
-watch(imageFile, (newFile, oldFile) => {
-  // Clean up old preview URL
-  if (oldFile && imagePreviewUrl.value) URL.revokeObjectURL(imagePreviewUrl.value)
-  imagePreviewUrl.value = newFile ? URL.createObjectURL(newFile) : ''
-  fileError.value = ''
-})
-
-onBeforeUnmount(() => {
-  if (imagePreviewUrl.value) URL.revokeObjectURL(imagePreviewUrl.value)
-})
-
-/** Handlers */
-function validateFile(file: File): string | null {
-  if (!file.type.startsWith('image/')) return 'File must be an image.'
-  if (file.size > MAX_FILE_SIZE)
-    return `Image must be under ${(MAX_FILE_SIZE / 1024 / 1024).toFixed(0)}MB.`
-  return null
+function toggleAllCategories() {
+  selectedCategories.value = isAllCategoriesSelected.value ? [] : [...allCategoryNames.value]
 }
 
-function setFile(file: File) {
-  const err = validateFile(file)
-  if (err) {
-    fileError.value = err
-    imageFile.value = null
+const subcategoriesForSelected = computed<string[]>(() => {
+  if (selectedCategories.value.length === 0) return []
+  const set = new Set<string>()
+  for (const catName of selectedCategories.value) {
+    const cat = categories.find((c: CategoryOption) => c.name === catName)
+    cat?.subCategories.forEach((s) => set.add(s))
+  }
+  return Array.from(set).sort((a, b) => a.localeCompare(b))
+})
+
+const isAllSubcategoriesSelected = computed<boolean>(
+  () =>
+    subcategoriesForSelected.value.length > 0 &&
+    selectedSubcategories.value.length === subcategoriesForSelected.value.length,
+)
+
+function toggleAllSubcategories() {
+  selectedSubcategories.value = isAllSubcategoriesSelected.value
+    ? []
+    : [...subcategoriesForSelected.value]
+}
+
+// Keep subcategory selection valid as parent categories change
+watch(selectedCategories, () => {
+  selectedSubcategories.value = selectedSubcategories.value.filter((s) =>
+    subcategoriesForSelected.value.includes(s),
+  )
+})
+
+// Final tags that will be saved to the community
+const tagsToSave = computed<string[]>(() => {
+  const set = new Set<string>([...selectedCategories.value, ...selectedSubcategories.value])
+  return Array.from(set)
+})
+
+// ----- Submission -----
+const error = ref<string>('') // placeholder for validation errors
+const success = ref<boolean>(false)
+
+function handleSubmit() {
+  error.value = ''
+  success.value = false
+
+  // Example minimal validation
+  if (!newCommunity.value.name || !newCommunity.value.description || !newCommunity.value.location) {
+    error.value = 'Please complete all required fields.'
     return
   }
-  imageFile.value = file
-}
+  if (tagsToSave.value.length === 0) {
+    error.value = 'Please select at least one category or subcategory.'
+    return
+  }
 
-function onFileChange(e: Event) {
-  const files = (e.target as HTMLInputElement).files
-  if (files && files[0]) setFile(files[0])
-}
+  // Persist the union to the model your API expects
+  newCommunity.value.categories = [...tagsToSave.value]
 
-function onDrop(e: DragEvent) {
-  const files = e.dataTransfer?.files
-  if (files && files[0]) setFile(files[0])
-}
+  // TODO: Replace with your actual create API call or store action
+  // await api.createCommunity(newCommunity.value)
 
-function onSubmit() {
-  submitted.value = true
-  if (!isValid.value) return
-  emit('create', {
-    name: form.name,
-    description: form.description,
-    category: form.category,
-    location: form.location,
-    imageFile: imageFile.value ?? null,
-  })
-}
-function onCancel() {
-  emit('cancel')
+  success.value = true
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* optional: for long text clamping elsewhere if you reuse */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>
