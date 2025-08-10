@@ -12,7 +12,13 @@
       <div class="flex flex-col sm:flex-row sm:items-center gap-4">
         <div class="flex items-center gap-3 flex-1">
           <h2 class="text-3xl font-bold text-gray-900">{{ community.name }}</h2>
-          <Tag :value="community.category" severity="info" class="text-sm" />
+          <Tag
+            v-for="cat in community.categories"
+            :key="cat"
+            :value="cat"
+            severity="info"
+            class="text-sm"
+          />
         </div>
         <Button
           label="Request Collaboration"
