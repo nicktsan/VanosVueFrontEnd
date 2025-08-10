@@ -17,7 +17,7 @@ interface Community {
   id: string
   name: string
   description: string
-  category: string
+  categories: string[]
   image?: string
   creator: string
   members: number
@@ -29,17 +29,246 @@ interface Community {
 }
 
 interface CategoryOption {
-  label: string
-  value: string
+  name: string
+  subCategories: string[]
 }
 
 const categories: CategoryOption[] = [
-  { label: 'Tech', value: 'Tech' },
-  { label: 'Art', value: 'Art' },
-  { label: 'Fitness', value: 'Fitness' },
-  { label: 'Education', value: 'Education' },
-  { label: 'Gaming', value: 'Gaming' },
-  { label: 'Food', value: 'Food' },
+  {
+    name: 'Agriculture',
+    subCategories: ['Dairy', 'Farming', 'Fishery', 'Ranching'],
+  },
+  {
+    name: 'Arts',
+    subCategories: ['Arts & Crafts', 'Fine Art', 'Performing Arts', 'Photography'],
+  },
+  {
+    name: 'Construction',
+    subCategories: ['Building Materials', 'Civil Engineering', 'Construction'],
+  },
+  {
+    name: 'Consumer Goods',
+    subCategories: [
+      'Apparel & Fashion',
+      'Consumer Electronics',
+      'Consumer Goods',
+      'Consumer Services',
+      'Cosmetics',
+      'Food & Beverages',
+      'Furniture',
+      'Luxury Goods & Jewelry',
+      'Sporting Goods',
+      'Tobacco',
+      'Wine and Spirits',
+    ],
+  },
+  {
+    name: 'Corporate Services',
+    subCategories: [
+      'Accounting',
+      'Business Supplies & Equipment',
+      'Environmental Services',
+      'Events Services',
+      'Executive Office',
+      'Facilities Services',
+      'Human Resources',
+      'Information Services',
+      'Management Consulting',
+      'Outsourcing/Offshoring',
+      'Professional Training & Coaching',
+      'Security & Investigations',
+      'Staffing & Recruiting',
+    ],
+  },
+  {
+    name: 'Design',
+    subCategories: ['Architecture & Planning', 'Design', 'Graphic Design'],
+  },
+  {
+    name: 'Education',
+    subCategories: [
+      'Education Management',
+      'E-Learning',
+      'Higher Education',
+      'Primary/Secondary Education',
+      'Research',
+    ],
+  },
+  {
+    name: 'Energy & Mining',
+    subCategories: ['Mining & Metals', 'Oil & Energy', 'Utilities'],
+  },
+  {
+    name: 'Entertainment',
+    subCategories: [
+      'Animation',
+      'Broadcast Media',
+      'Computer Games',
+      'Entertainment',
+      'Media Production',
+      'Mobile Games',
+      'Motion Pictures & Film',
+      'Music',
+    ],
+  },
+  {
+    name: 'Finance',
+    subCategories: [
+      'Banking',
+      'Capital Markets',
+      'Ficial Services',
+      'Insurance',
+      'Investment Banking',
+      'Investment Management',
+      'Venture Capital & Private Equity',
+    ],
+  },
+  {
+    name: 'Hardware & Networking',
+    subCategories: [
+      'Computer Hardware',
+      'Computer Networking',
+      'otechnologie',
+      'Semiconductors',
+      'Telecommunications',
+      'Wireless',
+    ],
+  },
+  {
+    name: 'Health Care',
+    subCategories: [
+      'Biotechnology',
+      'Hospital & Health Care',
+      'Medical Device',
+      'Medical Practice',
+      'Mental Health Care',
+      'Pharmaceuticals',
+      'Veterinary',
+    ],
+  },
+  {
+    name: 'Legal',
+    subCategories: ['Alternative Dispute Resolution', 'Law Practice', 'Legal Services'],
+  },
+  {
+    name: 'Manufacturing',
+    subCategories: [
+      'Automotive',
+      'Aviation & Aerospace',
+      'Chemicals',
+      'Defense & Space',
+      'Electrical & Electronic Manufacturing',
+      'Food Production',
+      'Glass, Ceramics & Concrete',
+      'Industrial Automation',
+      'Machinery',
+      'Mechanical or Industrial Engineering',
+      'Packaging & Containers',
+      'Paper & Forest Products',
+      'Plastics',
+      'Railroad Manufacture',
+      'Renewables & Environment',
+      'Shipbuilding',
+      'Textiles',
+    ],
+  },
+  {
+    name: 'Media & Communications',
+    subCategories: [
+      'Market Research',
+      'Marketing & Advertising',
+      'Newspapers',
+      'Online Media',
+      'Printing',
+      'Public Relations & Communications',
+      'Publishing',
+      'Translation & Localization',
+      'Writing & Editing',
+    ],
+  },
+  {
+    name: 'Nonprofit',
+    subCategories: [
+      'Civic & Social Organization',
+      'Fundraising',
+      'Individual & Family Services',
+      'International Trade & Development',
+      'Libraries',
+      'Museums & Institutions',
+      'Non-Profit Organization Management',
+      'Philanthropy',
+      'Program Development',
+      'Religious Institutions',
+      'Think Tanks',
+    ],
+  },
+  {
+    name: 'Public Administration',
+    subCategories: [
+      'Government Administration',
+      'Government Relations',
+      'International Affairs',
+      'Judiciary',
+      'Legislative Office',
+      'Political Organization',
+      'Public Policy',
+    ],
+  },
+  {
+    name: 'Public Safety',
+    subCategories: ['Law Enforcement', 'Military', 'Public Safety'],
+  },
+  {
+    name: 'Real Estate',
+    subCategories: ['Commercial Real Estate', 'Real Estate'],
+  },
+  {
+    name: 'Recreation & Travel',
+    subCategories: [
+      'Airlines/Aviation',
+      'Gambling & Casinos',
+      'Hospitality',
+      'Leisure, Travel & Tourism',
+      'Restaurants',
+      'Recreational Facilities & Services',
+      'Sports',
+    ],
+  },
+  {
+    name: 'Retail',
+    subCategories: ['Retail', 'Supermarkets', 'Wholesale'],
+  },
+  {
+    name: 'Software & IT Services',
+    subCategories: [
+      'Computer & Network Security',
+      'Computer Software',
+      'Information Technology & Services',
+      'Internet',
+      'AI',
+      'Cloud',
+      'Open Source',
+    ],
+  },
+  {
+    name: 'Transportation & Logistics',
+    subCategories: [
+      'Import & Export',
+      'Logistics & Supply Chain',
+      'Maritime',
+      'Package/Freight Delivery',
+      'Transportation/Trucking/Railroad',
+      'Warehousing',
+    ],
+  },
+  {
+    name: 'Wellness & Fitness',
+    subCategories: ['Alternative Medicine', 'Health, Wellness & Fitness'],
+  },
+  {
+    name: 'Minorities',
+    subCategories: ['LGBTQ', 'BIPOC'],
+  },
 ]
 
 const communities: Community[] = [
@@ -48,7 +277,7 @@ const communities: Community[] = [
     name: 'Vue.js Enthusiasts',
     description:
       'A global community for developers building with the Vue framework. Looking for food venues for our next event',
-    category: 'Tech',
+    categories: ['Software & IT Services', 'Computer Software', 'Internet', 'Open Source'],
     image: '/images/communities/vuelogo.png',
     creator: 'Evan You',
     members: 8740,
@@ -99,7 +328,7 @@ const communities: Community[] = [
     id: '1',
     name: 'Urban Sketchers',
     description: 'Join artists who love sketching cityscapes and sharing techniques.',
-    category: 'Art',
+    categories: ['Arts', 'Fine Art', 'Photography'],
     image: '/images/communities/urban sketcher.jpg',
     creator: 'Gabi Campanario',
     members: 1542,
@@ -136,7 +365,12 @@ const communities: Community[] = [
     id: '2',
     name: 'Trail Runners Club',
     description: 'Weekend runs, training tips, and race meet-ups for all levels.',
-    category: 'Fitness',
+    categories: [
+      'Wellness & Fitness',
+      'Health, Wellness & Fitness',
+      'Recreation & Travel',
+      'Sports',
+    ],
     image: '/images/communities/trail_runners_club.png',
     creator: 'Sarah Kim',
     members: 312,
@@ -166,7 +400,7 @@ const communities: Community[] = [
     name: 'Indie Game Devs',
     description:
       'Collaborate, showcase, and get feedback on your indie game projects. Looking to collaborate with gaming communities for beta testing.',
-    category: 'Gaming',
+    categories: ['Entertainment', 'Computer Games', 'Software & IT Services', 'Computer Software'],
     image: '/images/communities/indiegamedevs.png',
     creator: 'Mark Brown',
     members: 2115,
@@ -211,7 +445,13 @@ const communities: Community[] = [
     name: 'Plant-Based Cooking',
     description:
       'Recipes, tips, and challenges for healthy plant-based eating. Looking for partnerships with farmers.',
-    category: 'Food',
+    categories: [
+      'Consumer Goods',
+      'Food & Beverages',
+      'Recreation & Travel',
+      'Restaurants',
+      'Agriculture',
+    ],
     image: '/images/communities/plantbasedcooking.jpg',
     creator: 'Nisha Vora',
     members: 974,
@@ -247,7 +487,13 @@ const communities: Community[] = [
     id: '5',
     name: 'Lifelong Learners',
     description: 'Discuss online courses, share resources, and stay curious together.',
-    category: 'Education',
+    categories: [
+      'Education',
+      'E-Learning',
+      'Higher Education',
+      'Software & IT Services',
+      'Information Technology & Services',
+    ],
     image: '/images/communities/lifelonglearners.jpg',
     creator: 'Ali Abdaal',
     members: 5830,
@@ -283,7 +529,7 @@ const communities: Community[] = [
     name: 'Nick Gaming Community',
     description:
       'Nick Gaming Community description. Looking to collaborate with other gaming communities for an upcoming event.',
-    category: 'Gaming',
+    categories: ['Entertainment', 'Computer Games', 'Mobile Games'],
     image: '/images/communities/nicksgaming.webp',
     creator: 'Nicholas Tsang',
     members: 123,
