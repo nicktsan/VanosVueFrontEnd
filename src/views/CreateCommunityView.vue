@@ -35,6 +35,15 @@
             required
           />
         </label>
+        <label class="sm:col-span-2 flex flex-col gap-1">
+          <span class="text-sm font-medium">About</span>
+          <textarea
+            v-model.trim="newCommunity.detailedAbout"
+            rows="4"
+            class="rounded-lg border px-3 py-2"
+            required
+          />
+        </label>
       </div>
 
       <!-- Category selection -->
@@ -143,6 +152,7 @@ const newCommunity = ref({
   description: '',
   location: '',
   categories: [] as string[], // will be saved as union of selected categories + subcategories
+  detailedAbout: '',
 })
 
 // ----- Multi-select state -----
@@ -151,7 +161,6 @@ const selectedSubcategories = ref<string[]>([])
 
 // ----- Select-all helpers -----
 const allCategoryNames = computed<string[]>(() => categories.map((c) => c.name))
-
 const isAllCategoriesSelected = computed<boolean>(
   () =>
     selectedCategories.value.length > 0 &&
