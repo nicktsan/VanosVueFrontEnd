@@ -33,7 +33,11 @@
     <template #content>
       <!-- Description -->
       <p class="mb-6 text-gray-700">{{ community.description }}</p>
-
+      <Panel class="mb-6" header="About" toggleable :collapsed="true">
+        <p class="mb-6 text-gray-700">
+          {{ community.detailedAbout }}
+        </p>
+      </Panel>
       <!-- Key facts grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
         <!-- Creator -->
@@ -237,6 +241,7 @@ import AccordionTab from 'primevue/accordiontab'
 import Divider from 'primevue/divider'
 import Tree from 'primevue/tree'
 import type { TreeNode } from 'primevue/treenode'
+import Panel from 'primevue/panel'
 
 /* Props */
 const props = defineProps<{ community: Community }>()

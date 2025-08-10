@@ -17,6 +17,7 @@ interface Community {
   id: string
   name: string
   description: string
+  detailedAbout: string
   categories: string[]
   image?: string
   creator: string
@@ -277,6 +278,8 @@ const communities: Community[] = [
     name: 'Vue.js Enthusiasts',
     description:
       'A global community for developers building with the Vue framework. Looking for food venues for our next event',
+    detailedAbout:
+      'Vue.js Enthusiasts is a worldwide network of developers passionate about building with the Vue framework. Our community organizes meetups, workshops, and conferences where members share knowledge, explore best practices, and collaborate on open-source projects. We foster a welcoming environment for both beginners and seasoned professionals, encouraging peer-to-peer learning and connections that span across industries and continents.',
     categories: ['Software & IT Services', 'Computer Software', 'Internet', 'Open Source'],
     image: '/images/communities/vuelogo.png',
     creator: 'Evan You',
@@ -328,6 +331,8 @@ const communities: Community[] = [
     id: '1',
     name: 'Urban Sketchers',
     description: 'Join artists who love sketching cityscapes and sharing techniques.',
+    detailedAbout:
+      'Urban Sketchers is a global collective of artists dedicated to capturing the essence of cities through on-location drawing. Our members share techniques, participate in sketch walks, and connect over a shared love for architecture, culture, and street life. We believe in documenting the world one drawing at a time, celebrating diverse perspectives and storytelling through art.',
     categories: ['Arts', 'Fine Art', 'Photography'],
     image: '/images/communities/urban sketcher.jpg',
     creator: 'Gabi Campanario',
@@ -365,6 +370,8 @@ const communities: Community[] = [
     id: '2',
     name: 'Trail Runners Club',
     description: 'Weekend runs, training tips, and race meet-ups for all levels.',
+    detailedAbout:
+      'Trail Runners Club is a community of running enthusiasts who come together to explore scenic trails, improve fitness, and share the joy of outdoor adventures. We welcome runners of all levels, offering weekly group runs, training advice, and social activities. Whether you are preparing for your next race or simply enjoy a jog in nature, our club provides camaraderie and encouragement every step of the way.',
     categories: [
       'Wellness & Fitness',
       'Health, Wellness & Fitness',
@@ -400,6 +407,8 @@ const communities: Community[] = [
     name: 'Indie Game Devs',
     description:
       'Collaborate, showcase, and get feedback on your indie game projects. Looking to collaborate with gaming communities for beta testing.',
+    detailedAbout:
+      'Indie Game Devs is a collaborative hub for independent game developers to share projects, exchange feedback, and explore partnerships. We focus on fostering creativity, supporting technical problem-solving, and providing a platform for showcasing games to a like-minded audience. Our community connects developers, artists, and testers in a vibrant space where ideas evolve into polished interactive experiences.',
     categories: ['Entertainment', 'Computer Games', 'Software & IT Services', 'Computer Software'],
     image: '/images/communities/indiegamedevs.png',
     creator: 'Mark Brown',
@@ -445,6 +454,8 @@ const communities: Community[] = [
     name: 'Plant-Based Cooking',
     description:
       'Recipes, tips, and challenges for healthy plant-based eating. Looking for partnerships with farmers.',
+    detailedAbout:
+      'Plant-Based Cooking is a welcoming space for individuals passionate about healthy, sustainable eating. Our community shares recipes, cooking tips, and nutritional advice to help members enjoy plant-based meals without compromising on taste. We encourage collaborations with local farmers, restaurants, and chefs to inspire creativity and foster a deeper connection to the food we eat.',
     categories: [
       'Consumer Goods',
       'Food & Beverages',
@@ -487,6 +498,8 @@ const communities: Community[] = [
     id: '5',
     name: 'Lifelong Learners',
     description: 'Discuss online courses, share resources, and stay curious together.',
+    detailedAbout:
+      'Lifelong Learners is a knowledge-driven community where curiosity is celebrated and learning never stops. Members exchange resources, review online courses, and explore diverse subjects ranging from technology to the arts. We provide an inclusive space for discussions, peer support, and collaborative learning projects, encouraging members to expand their horizons at any stage of life.',
     categories: [
       'Education',
       'E-Learning',
@@ -529,6 +542,8 @@ const communities: Community[] = [
     name: 'Nick Gaming Community',
     description:
       'Nick Gaming Community description. Looking to collaborate with other gaming communities for an upcoming event.',
+    detailedAbout:
+      'Nick Gaming Community is a vibrant group of gamers who unite to organize events, tournaments, and collaborative projects with other gaming communities. Our focus is on fostering friendships, sharing strategies, and building a supportive environment for casual and competitive players alike. We embrace all platforms and genres, encouraging diverse gaming experiences and meaningful connections.',
     categories: ['Entertainment', 'Computer Games', 'Mobile Games'],
     image: '/images/communities/nicksgaming.webp',
     creator: 'Nicholas Tsang',
