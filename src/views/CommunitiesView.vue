@@ -92,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, h } from 'vue'
+import { ref, computed, watch } from 'vue'
 // Adjust this import to your project structure:
 import { categories, communities, type Community, type CategoryOption } from '@/data/communities'
 
@@ -119,7 +119,7 @@ const matchesToken = (hay: string | string[] | undefined, token: string): boolea
   if (!hay) return false
   const t = ci(token)
   if (Array.isArray(hay)) return hay.some((h) => ci(h) === t || ci(h).includes(t))
-  return ci(hay) === t || ci(h).includes(t)
+  return ci(hay) === t || ci(hay).includes(t)
 }
 
 const filtered = computed<Community[]>(() => {
