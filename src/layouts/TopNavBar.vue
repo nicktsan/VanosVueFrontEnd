@@ -31,13 +31,18 @@ onMounted(async () => {
     <div class="nav-left">
       <slot name="left">
         <router-link to="/">
-          <Button v-if="sizes.isMobile.value" label="Home" size="small" class="p-button-outlined" />
+          <Button
+            v-if="sizes.isMobile.value"
+            size="small"
+            icon="pi pi-home"
+            class="p-button-outlined"
+          />
           <Button v-else label="Home" size="large" class="p-button-outlined" />
         </router-link>
         <router-link to="/communities">
           <Button
             v-if="sizes.isMobile.value"
-            label="Browse Communities"
+            icon="pi pi-globe"
             size="small"
             class="p-button-outlined"
           />
@@ -50,11 +55,11 @@ onMounted(async () => {
       <router-link to="/create-community">
         <Button
           v-if="sizes.isMobile.value"
-          label="Create Community"
+          label="New Community"
           size="small"
           class="p-button-outlined"
         />
-        <Button v-else label="Create Community" size="large" class="p-button-outlined" />
+        <Button v-else label="New Community" size="large" class="p-button-outlined" />
       </router-link>
       <template v-if="session">
         <AccountMenuBar :session="session" />

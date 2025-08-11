@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-screen bg-background">
-    <section class="container mx-auto px-4 py-20 text-center">
+  <div class="min-h-screen bg-background flex items-center justify-center">
+    <section class="container px-4 text-center">
       <div class="max-w-4xl mx-auto">
         <h1
           class="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text"
         >
-          CommunityCollabPlatformName
+          Community Collab Platform Name
         </h1>
         <p class="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
           The ultimate platform for helping communities find collaboration opportunities.
