@@ -4,6 +4,9 @@ import Avatar from 'primevue/avatar'
 import Menu from 'primevue/menu'
 import router from '@/router'
 import { supabase } from '@/lib/supabaseClient'
+import { useMonitorSize } from '@/composables/monitor-size'
+
+const sizes = useMonitorSize()
 
 const menu = ref<InstanceType<typeof Menu> | null>(null)
 const props = defineProps(['session'])
@@ -40,6 +43,15 @@ async function logout() {
 <template>
   <div>
     <Avatar
+      v-if="sizes.isMobile.value"
+      :image="avatarUrl"
+      shape="circle"
+      size="small"
+      class="cursor-pointer"
+      @click="toggleMenu"
+    />
+    <Avatar
+      v-else
       :image="avatarUrl"
       shape="circle"
       size="large"
