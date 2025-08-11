@@ -18,6 +18,7 @@ export function useMonitorSize() {
   }
 
   onMounted(() => {
+    browserResized()
     window.addEventListener('resize', browserResized)
   })
 

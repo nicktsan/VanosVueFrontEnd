@@ -8,14 +8,7 @@ import { useMonitorSize } from '@/composables/monitor-size'
 
 const sizes = useMonitorSize()
 const session = ref()
-const updateOffset = () => {
-  const nav = document.querySelector('.navbar') as HTMLElement | null
-  if (nav) document.documentElement.style.setProperty('--navbar-height', `${nav.offsetHeight}px`)
-}
-onBeforeUnmount(() => window.removeEventListener('resize', updateOffset))
 onMounted(async () => {
-  updateOffset()
-  window.addEventListener('resize', updateOffset)
   supabase.auth.getSession().then(({ data }) => {
     session.value = data.session
   })
@@ -42,7 +35,7 @@ onMounted(async () => {
         <router-link to="/communities">
           <Button
             v-if="sizes.isMobile.value"
-            icon="pi pi-globe"
+            label="Communities"
             size="small"
             class="p-button-outlined"
           />
