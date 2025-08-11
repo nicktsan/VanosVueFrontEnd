@@ -46,7 +46,7 @@ onMounted(async () => {
             size="small"
             class="p-button-outlined"
           />
-          <Button v-else label="Browse Communities" size="large" class="p-button-outlined" />
+          <Button v-else label="Communities" size="large" class="p-button-outlined" />
         </router-link>
       </slot>
     </div>
