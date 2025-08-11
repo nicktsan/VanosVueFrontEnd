@@ -4,7 +4,9 @@ import GoogleLogin from '@/components/navbar_user_components/GoogleLogin.vue'
 import AccountMenuBar from '@/components/navbar_user_components/AccountMenuBar.vue'
 import { supabase } from '@/lib/supabaseClient'
 import Button from 'primevue/button'
+import { useMonitorSize } from '@/composables/monitor-size'
 
+const sizes = useMonitorSize()
 const session = ref()
 const updateOffset = () => {
   const nav = document.querySelector('.navbar') as HTMLElement | null
@@ -29,10 +31,17 @@ onMounted(async () => {
     <div class="nav-left">
       <slot name="left">
         <router-link to="/">
-          <Button label="Home" size="large" class="p-button-outlined" />
+          <Button v-if="sizes.isMobile.value" label="Home" size="small" class="p-button-outlined" />
+          <Button v-else label="Home" size="large" class="p-button-outlined" />
         </router-link>
         <router-link to="/communities">
-          <Button label="Browse Communities" size="large" class="p-button-outlined" />
+          <Button
+            v-if="sizes.isMobile.value"
+            label="Browse Communities"
+            size="small"
+            class="p-button-outlined"
+          />
+          <Button v-else label="Browse Communities" size="large" class="p-button-outlined" />
         </router-link>
       </slot>
     </div>
