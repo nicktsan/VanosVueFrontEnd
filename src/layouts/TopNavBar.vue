@@ -48,7 +48,13 @@ onMounted(async () => {
 
     <div class="nav-right">
       <router-link to="/create-community">
-        <Button label="Create Community" size="large" class="p-button-outlined" />
+        <Button
+          v-if="sizes.isMobile.value"
+          label="Create Community"
+          size="small"
+          class="p-button-outlined"
+        />
+        <Button v-else label="Create Community" size="large" class="p-button-outlined" />
       </router-link>
       <template v-if="session">
         <AccountMenuBar :session="session" />
