@@ -5,6 +5,7 @@ import CommunitiesView from '@/views/CommunitiesView.vue'
 import CommunityDetailsView from '@/views/CommunityDetailsView.vue'
 import { communities } from '@/data/communities'
 import CreateCommunityView from '@/views/CreateCommunityView.vue'
+import NotificationsView from '@/views/NotificationsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/create-community',
       name: 'create-community',
       component: CreateCommunityView,
+    },
+    {
+      path: '/notifications',
+      name: 'notifications',
+      component: NotificationsView,
     },
     {
       path: '/communitydetails/:id',
