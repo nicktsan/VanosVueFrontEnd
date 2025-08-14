@@ -59,7 +59,8 @@ const notifications: Notification[] = [
         },
       ],
     },
-    content: 'Looking to collaborate in future events',
+    content:
+      'Hello, we are a group that connects indie game devs. We are looking to collaborate in future events since we share common interests.',
   },
 ]
 export { notifications }
