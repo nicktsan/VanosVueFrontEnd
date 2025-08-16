@@ -5,10 +5,10 @@
         <h1
           class="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text"
         >
-          Community Collab Platform Name
+          Collabstra
         </h1>
         <p class="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-          The ultimate platform for helping communities find collaboration opportunities.
+          The shortest path to finding your next cross-community collaboration!
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <router-link to="/communities">
