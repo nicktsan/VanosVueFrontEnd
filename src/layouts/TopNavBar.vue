@@ -37,13 +37,12 @@ onMounted(async () => {
             icon="pi pi-home"
             size="large"
             class="p-button-outlined nav-btn"
-          >
-          </Button>
+          />
         </router-link>
 
         <!-- Communities -->
         <router-link to="/communities">
-          <!-- Mobile: icon + text in a row -->
+          <!-- Mobile: icon-only (kept as-is) -->
           <Button v-if="sizes.isMobile.value" size="small" class="p-button-outlined nav-btn">
             <svg
               viewBox="0 0 28 28"
@@ -59,8 +58,8 @@ onMounted(async () => {
             </svg>
           </Button>
 
-          <!-- Desktop: stacked icon over text -->
-          <Button v-else size="large" class="p-button-outlined nav-btn communities-btn">
+          <!-- Desktop: icon (left) + text (right) -->
+          <Button v-else size="large" class="p-button-outlined nav-btn">
             <svg
               viewBox="0 0 28 28"
               xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +135,7 @@ onMounted(async () => {
 
   /* Button height variables scoped to the navbar */
   --nav-btn-h-mobile: 40px; /* tweak to taste */
-  --nav-btn-h-desktop: 56px; /* tall enough for stacked icon+text */
+  --nav-btn-h-desktop: 56px; /* tall enough for icon+text */
 
   background-color: #f0f0f0;
   padding: 1rem;
@@ -193,14 +192,14 @@ onMounted(async () => {
 /* PrimeVue Button base alignment + spacing between icon/text */
 .navbar .nav-btn {
   min-height: 0;
-  line-height: 1; /* avoid font-line-height bloating height */
-  padding-top: 0; /* fixed height -> center with flex */
+  line-height: 1;
+  padding-top: 0;
   padding-bottom: 0;
-  display: inline-flex; /* explicit for consistency */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem; /* icon <-> label spacing */
-  white-space: nowrap; /* prevent wrap inflating height */
+  gap: 0.5rem; /* <-- this gives you icon-left, text-right spacing */
+  white-space: nowrap;
 }
 
 /* Badge should not stretch height */
@@ -208,17 +207,7 @@ onMounted(async () => {
   transform: translateY(-10%);
 }
 
-/* Stacked desktop layout for Communities (still same overall height) */
-.communities-btn {
-  flex-direction: column; /* icon on top, text below */
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  font-size: 0.95rem; /* small nudge to fit within 56px comfortably */
-}
-
-/* Scale SVGs with text & inherit color; keep them sensible inside fixed height */
-.communities-btn svg,
+/* Icon sizing & color inheritance */
 .nav-btn svg {
   width: 1.1em;
   height: 1.1em;
